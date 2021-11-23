@@ -56,7 +56,7 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "post-install-cmd": "vendor/bin/cghooks add --ignore-lock"
+        "post-install-cmd": "vendor/bin/cghooks add --no-lock"
     },
     "extra": {
         "laravel": {
