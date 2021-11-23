@@ -65,7 +65,7 @@
         "hooks": {
             "pre-commit": [
                 "echo committing as $(git config user.name)",
-                "vendor/bin/ecs check . --fix --quiet"
+                "git status --porcelain | grep -e '^[AM]\(.*\).php$' | cut -c 3- | while read line; do vendor\bin\ecs check \"$line\" --fix --quiet; git add \"$line\"; done"
             ]
         }
     },
