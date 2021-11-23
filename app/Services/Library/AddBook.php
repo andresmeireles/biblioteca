@@ -10,6 +10,6 @@ class AddBook
 {
     public function add(array $addBook): Book
     {
-        return Book::create($addBook); 
+        return Book::create($addBook);
     }
 }

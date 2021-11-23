@@ -11,7 +11,8 @@ class ConsultResponse implements ApiResponseInterface
     public function __construct(
         private mixed $consultResult,
         private bool $success = true
-    ) {}
+    ) {
+    }
 
     public static function fail(string $message = ''): self
     {
@@ -25,4 +26,4 @@ class ConsultResponse implements ApiResponseInterface
             'message' => $this->consultResult
         ];
     }
-} 
+}

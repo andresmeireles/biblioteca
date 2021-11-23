@@ -25,6 +25,7 @@
         "phpunit/phpunit": "^9.5.10",
         "psalm/plugin-laravel": "^1.5",
         "psalm/plugin-phpunit": "^0.16.1",
+        "symplify/easy-coding-standard": "^9.4",
         "vimeo/psalm": "^4.13"
     },
     "autoload": {
