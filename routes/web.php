@@ -17,5 +17,3 @@ Route::get('/login', fn () => view('welcome'));
 Route::get('/', function () {
     return view('welcome');
 });
-
-

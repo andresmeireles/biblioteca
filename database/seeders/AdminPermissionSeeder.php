@@ -14,7 +14,7 @@ class AdminPermissionSeeder extends Seeder
      */
     public function run()
     {
-        /** @var User */
+        /** @var User $admin */
         $admin = User::where('username', 'admin')->first();
         $admin->assignRole('administrator');
     }

@@ -47,7 +47,8 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi",
+            "vendor/bin/cghooks update"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -55,6 +56,7 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+        "post-install-cmd": "vendor/bin/cghooks add --ignore-lock",
     },
     "extra": {
         "laravel": {
@@ -63,7 +65,7 @@
         "hooks": {
             "pre-commit": [
                 "echo committing as $(git config user.name)",
-                "vendor/bin/ecs check . --fix"
+                "vendor/bin/ecs check . --fix --quiet"
             ]
         }
     },
