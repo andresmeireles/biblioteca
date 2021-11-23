@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,19 +16,15 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request): User {
     return $request->user();
 });
 
-    Route::post('/login', function (Request $request) {
-        $login = $request->login;
-        $password = $request->password;
-        $user = User::where('username', $login)->first();
-        if ($user && Hash::check($password, $user->password)) {
-            return $user->createToken('api token')->plainTextToken;
-        }
-
-        return sprintf('%s %s', $login, $password);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('user')->group(function () {
+        Route::post('register', [UserController::class, 'register']);
     });
+});
 
