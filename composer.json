@@ -62,7 +62,7 @@
         },
         "hooks": {
             "pre-commit": [
-                "analyse your code",
+                "echo committing as $(git config user.name)",
                 "vendor/bin/ecs check . --fix"
             ]
         }
