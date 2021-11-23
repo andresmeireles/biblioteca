@@ -55,17 +55,17 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
-        "post-install-cmd": "vendor/bin/cghooks add --ignore-lock",
+        ],
+        "post-install-cmd": "vendor/bin/cghooks add --ignore-lock"
     },
     "extra": {
         "laravel": {
             "dont-discover": []
         },
-        "hooks": {
+        "hooks": { 
             "pre-commit": [
                 "echo committing as $(git config user.name)",
-                "git status --porcelain | grep -e '^[AM]\(.*\).php$' | cut -c 3- | while read line; do vendor\bin\ecs check \"$line\" --fix --quiet; git add \"$line\"; done"
+                "git status --porcelain | grep -e '^[AM]\\(.*\\).php$' | cut -c 3- | while read line; do vendor/bin/ecs check \"$line\" --fix --quiet; git add \"$line\"; done"
             ]
         }
     },
