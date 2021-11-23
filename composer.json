@@ -63,7 +63,7 @@
         "hooks": {
             "pre-commit": [
                 "analyse your code",
-                "vendor/bin/ecs check app"
+                "vendor/bin/ecs check . --fix"
             ]
         }
     },
