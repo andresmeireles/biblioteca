@@ -24,6 +24,7 @@ class CreateBorrowedBooksTable extends Migration
             $table->dateTime('return_date')->nullable();
             $table->boolean('is_lost')->default(false);
             $table->boolean('is_approved')->nullable();
+            $table->boolean('finished')->default(false);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

@@ -27,7 +27,7 @@ class CreateBooksTable extends Migration
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
 
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('no action');
         });
 
         Schema::create('book_amounts', function (Blueprint $table) {
@@ -35,8 +35,9 @@ class CreateBooksTable extends Migration
             $table->unsignedBigInteger('book_id')->unique();
             $table->unsignedBigInteger('amount');
             $table->unsignedBigInteger('available_amount');
+            $table->timestamps();
             
-            $table->foreign('book_id')->references('id')->on('books');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
         });
     }
 

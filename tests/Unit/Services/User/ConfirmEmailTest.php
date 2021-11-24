@@ -27,8 +27,8 @@ class ConfirmEmailTest extends TestCase
 
     public function testConfirmEmail(): void
     {
-        $this->confirm->confim($this->user->id, password_hash($this->user->username, PASSWORD_DEFAULT));
+        $this->confirm->confim($this->user->id, str_rot13(sprintf('%s%s', $this->user->username, $this->user->created_at->getTimestamp())));
         
-        $this->assertNotNull(User::all()->first()->email_verified_at);
+        $this->assertNotNull(User::first()->email_verified_at);
     }
 }

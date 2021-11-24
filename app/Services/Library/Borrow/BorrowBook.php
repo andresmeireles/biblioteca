@@ -38,11 +38,12 @@ class BorrowBook
         $user = User::findOrFail($userId);
         $borrow = BorrowedBook::findOrFail($borrowId);
         if (!$this->canApprove($user)) {
-            throw new UnauthorizedException(45, 'usuario não pode realizar essa ação');
+            throw new UnauthorizedException(45, 'usuário não pode realizar essa ação');
         }
         $borrow->is_approved = $isAprove;
+        $borrow->finished = !$isAprove;
         $borrow->update();
-
+        
         return $borrow;
     }
 
