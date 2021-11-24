@@ -9,13 +9,13 @@ use App\Models\User;
 
 class EditBook
 {
-    use BookPermissionTrait;
+    use LibraryPermissionTrait;
 
     public function editById(int $bookId, array $bookData, User $user): Book
     {
         /** @var Book $book */
         $book = Book::findOrFail($bookId);
-        $this->hasPermissionOrFail($book, $user);
+        $this->hasBookPermissionOrFail($book, $user);
         return $this->runEdit($book, $bookData);
     }
 

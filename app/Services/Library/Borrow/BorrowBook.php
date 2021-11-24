@@ -9,10 +9,12 @@ use App\Models\BookAmount;
 use App\Models\BorrowedBook;
 use App\Models\CanBorrowBook;
 use App\Models\User;
-use Spatie\Permission\Exceptions\UnauthorizedException;
+use App\Services\Library\LibraryPermissionTrait;
 
 class BorrowBook
 {
+    use LibraryPermissionTrait;
+
     public function borrow(int $bookId, int $userId, \DateTime $pickUpDate, \DateTime $expectReturnDate): BorrowedBook
     {
         if (!$this->userCanBorrow($userId)) {
@@ -37,9 +39,7 @@ class BorrowBook
     {
         $user = User::findOrFail($userId);
         $borrow = BorrowedBook::findOrFail($borrowId);
-        if (!$this->canApprove($user)) {
-            throw new UnauthorizedException(45, 'usuário não pode realizar essa ação');
-        }
+        $this->hasBorrowPermissionOrFail($user);
         $borrow->is_approved = $isAprove;
         $borrow->finished = !$isAprove;
         $borrow->update();
@@ -69,10 +69,5 @@ class BorrowBook
             throw new \InvalidArgumentException('livro não existe');
         }
         return $book->isAvailable();
-    }
-
-    private function canApprove(User $user): bool
-    {
-        return $user->hasPermissionTo('borrow');
     }
 }

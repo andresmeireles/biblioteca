@@ -31,6 +31,7 @@ class BorrowBookTest extends TestCase
         $this->user = User::factory()->create();
         $this->addBook = new AddBook();
         $librarianPermission = Permission::create(['name' => 'borrow']);
+        Permission::create(['name' => 'admin']);
         $this->librarian = User::factory()->create();
         $this->librarian->givePermissionTo($librarianPermission);
     }
@@ -123,7 +124,7 @@ class BorrowBookTest extends TestCase
     public function testValidateBorrowAsNoLibrarian(): void
     {
         $this->expectException(UnauthorizedException::class);
-        $this->expectExceptionMessage('usuário não pode realizar essa ação');
+        $this->expectExceptionMessage('usuário não tem permissão para fazer essa ação');
 
         $book = $this->addBook();
         $borrow = $this->borrow->borrow($book->id, $this->user->id, new \DateTime(), (new \DateTime())->add(new \DateInterval('P2D')));

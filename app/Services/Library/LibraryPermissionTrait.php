@@ -22,7 +22,7 @@ trait LibraryPermissionTrait
 
     public function hasBookPermissionOrFail(Book $book, User $user): bool
     {
-        if (!$this->hasPermission($book, $user)) {
+        if (!$this->hasBookPermission($book, $user)) {
             throw new UnauthorizedException(45, 'cliente não tem permissão para fazer essa ação');
         }
 
@@ -34,9 +34,12 @@ trait LibraryPermissionTrait
         return $user->hasPermissionTo('borrow') || $user->hasPermissionTo('admin');
     }
 
+    /**
+     * @throws UnauthorizedException
+     */
     public function hasBorrowPermissionOrFail(User $user): bool
     {
-        if (!$this->hasPermission($user)) {
+        if (!$this->hasBorrowPermission($user)) {
             throw new UnauthorizedException(45, 'usuário não tem permissão para fazer essa ação');
         }
 

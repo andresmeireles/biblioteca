@@ -9,13 +9,13 @@ use App\Models\User;
 
 class DeleteBook
 {
-    use BookPermissionTrait;
+    use LibraryPermissionTrait;
 
     public function deleteById(int $bookId, User $user): Book
     {
         /** @var Book $book */
         $book = Book::findOrFail($bookId);
-        $this->hasPermissionOrFail($book, $user);
+        $this->hasBookPermissionOrFail($book, $user);
         return $this->runDelete($book);
     }
 
