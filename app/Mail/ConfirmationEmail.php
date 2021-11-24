@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Hash;
 
 class ConfirmationEmail extends Mailable
 {
@@ -32,7 +31,7 @@ class ConfirmationEmail extends Mailable
     public function build()
     {
         $appUrl = env('APP_URL');
-        $userHash = Hash::make($this->user->username);
+        $userHash = str_rot13(sprintf('%s%s', $this->user->username, ($this->user->created_at ?? now())->getTimestamp()));
 
         $confirmationEmail = sprintf('%s/confirmation?u=%s&h=%s', $appUrl, $this->user->id, $userHash);
 

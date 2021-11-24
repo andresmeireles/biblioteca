@@ -89,8 +89,25 @@ class User extends Authenticatable
         if ($blockUser === null || $blockUser->block_until_date === null) {
             return false;
         }
-        $blockDate = $blockUser->block_until_date->getTimestamp();
+        $blockDate = (new \DateTime($blockUser->block_until_date))->getTimestamp();
         
         return now()->getTimestamp() < $blockDate;
+    }
+
+    public function blockUser(\DateTime $blockUntilDate): self
+    {
+        $blockedUser = BlockUser::where('user_id', $this->id)->first();
+        if ($blockedUser === null) {
+            BlockUser::create([
+                'user_id' => $this->id,
+                'block_until_date' => $blockUntilDate
+            ]);
+            return $this;
+        }
+
+        $blockedUser->block_until_date = $blockUntilDate;
+        $blockedUser->update();
+
+        return $this;
     }
 }

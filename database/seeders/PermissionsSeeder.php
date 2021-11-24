@@ -20,11 +20,14 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'create']);
         Permission::create(['name' => 'remove']);
         Permission::create(['name' => 'view']);
+        Permission::create(['name' => 'borrow' ]);
 
         $adminRole = Role::create(['name' => 'administrator']);
         $userWithPermissionRole = Role::create(['name' => 'client']);
+        $librarian = Role::create(['name' => 'librarian']);
 
-        $adminRole->givePermissionTo(['admin', 'edit', 'create', 'remove', 'view']);
+        $adminRole->givePermissionTo(['admin', 'edit', 'create', 'remove', 'view', 'borrow']);
+        $librarian->getIncrementing(['edit', 'create', 'remove', 'view', 'borrow']);
         $userWithPermissionRole->givePermissionTo(['edit', 'create', 'remove', 'view']);
     }
 }

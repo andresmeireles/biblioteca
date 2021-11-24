@@ -20,6 +20,15 @@ class UserSeed extends Seeder
             'username' => 'admin',
             'email' => 'admbibliotecadtl2021@gmail.com',
             'password' => Hash::make('admin2021'),
+            'email_verified_at' => now()
+        ]);
+
+        User::create([
+            'name' => 'bibliotecario',
+            'username' => 'bibliotecario',
+            'email' => 'bibliotecario@gmail.com',
+            'password' => Hash::make('bibliotecario123'),
+            'email_verified_at' => now()
         ]);
     }
 }

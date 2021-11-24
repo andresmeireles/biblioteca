@@ -31,8 +31,8 @@ class UserController extends Controller
         try {
             $user = $confirmEmail->confim($userId, $hash);
             return sprintf('email %s confirmado com sucesso', $user->email);
-        } catch (\Exception) {
-            return 'usuario não existe';
+        } catch (\Exception $err) {
+            return $err->getMessage();
         }
     }
 }
