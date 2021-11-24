@@ -82,4 +82,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isBlocked(): bool
+    {
+        $blockUser = BlockUser::where('user_id', $this->id)->first();
+        if ($blockUser === null || $blockUser->block_until_date === null) {
+            return false;
+        }
+        $blockDate = $blockUser->block_until_date->getTimestamp();
+        
+        return now()->getTimestamp() < $blockDate;
+    }
 }

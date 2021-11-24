@@ -7,6 +7,7 @@ namespace Tests\Unit\Services\User;
 use App\Actions\Fortify\CreateNewUser as FortifyCreateNewUser;
 use App\Services\User\CreateNewUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class CreateNewUserTest extends TestCase
@@ -20,6 +21,7 @@ class CreateNewUserTest extends TestCase
         parent::setUp();
 
         $this->createNewUser = new CreateNewUser(new FortifyCreateNewUser());
+        Role::create(['name' => 'client']);
     }
 
     public function testCreateRegularUser(): void
@@ -28,8 +30,8 @@ class CreateNewUserTest extends TestCase
             'name' => 'test',
             'username' => 'testusername',
             'email' => 'testemail@gmail.com',
-            'password' => 'senha',
-            'password_confirmation' => 'senha'
+            'password' => 'senha123',
+            'password_confirmation' => 'senha123'
         ]);
 
         $this->assertIsObject($result);
