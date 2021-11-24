@@ -26,7 +26,7 @@ class UserController extends Controller
     // TODO essa classe deverá ser atualizada quando o frontend for feito, junto com seus testes.
     public function confirmUserEmail(Request $request, ConfirmEmail $confirmEmail): string
     {
-        $userId = $request->query->getDigits('u');
+        $userId = (int) $request->query->getDigits('u');
         $hash = $request->query->getAlnum('h');
         try {
             $user = $confirmEmail->confim($userId, $hash);
