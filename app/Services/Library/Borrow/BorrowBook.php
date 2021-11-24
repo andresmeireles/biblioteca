@@ -9,16 +9,17 @@ use App\Models\BookAmount;
 use App\Models\BorrowedBook;
 use App\Models\CanBorrowBook;
 use App\Models\User;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class BorrowBook
 {
     public function borrow(int $bookId, int $userId, \DateTime $pickUpDate, \DateTime $expectReturnDate): BorrowedBook
     {
         if (!$this->userCanBorrow($userId)) {
-            throw new UserCannotBorrowException('usuario não pode pedir livros emprestados até uma data');
+            throw new UserCannotBorrowException('usuário não pode pedir livros emprestados até uma data');
         }
         if (!$this->bookHasStore($bookId)) {
-            throw new UserCannotBorrowException('livro não pode ser emprestado porque não está dispivel em estoque');
+            throw new UserCannotBorrowException('livro não pode ser emprestado porque não está disponível em estoque');
         }
         if ($pickUpDate->getTimestamp() >= $expectReturnDate->getTimestamp()) {
             throw new \LogicException('data de entrega não pode ser menor ou igual a data de retirada');
@@ -28,8 +29,21 @@ class BorrowBook
             'user_id' => $userId,
             'book_id' => $bookId,
             'pick_up_date' => $pickUpDate,
-            'expected_return_date' => $expectReturnDate
+            'expected_return_date' => $expectReturnDate,
         ]);
+    }
+
+    public function changeApproveStatus(int $userId, int $borrowId, bool $isAprove): BorrowedBook
+    {
+        $user = User::findOrFail($userId);
+        $borrow = BorrowedBook::findOrFail($borrowId);
+        if (!$this->canApprove($user)) {
+            throw new UnauthorizedException(45, 'usuario não pode realizar essa ação');
+        }
+        $borrow->is_approved = $isAprove;
+        $borrow->update();
+
+        return $borrow;
     }
 
     public function userCanBorrow(int $userId): bool
@@ -54,5 +68,10 @@ class BorrowBook
             throw new \InvalidArgumentException('livro não existe');
         }
         return $book->isAvailable();
+    }
+
+    private function canApprove(User $user): bool
+    {
+        return $user->hasPermissionTo('borrow');
     }
 }

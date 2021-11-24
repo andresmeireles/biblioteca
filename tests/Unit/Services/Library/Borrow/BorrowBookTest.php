@@ -9,9 +9,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 // TODO empréstimo padrão
-// todo empréstimo de livro sem estoque
+// TODO empréstimo de livro sem estoque
 // TODO empréstimo a cliente que não pode alugar livro
 // TODO empréstimo com datas invalidas
+// TODO validar empréstimo
+// TODO validar empréstimo com usuário inválido
+// TODO validar empréstimo negativamente
 class BorrowBookTest extends TestCase
 {
     use RefreshDatabase;
@@ -25,5 +28,6 @@ class BorrowBookTest extends TestCase
         parent::setUp();
         $this->borrow = new BorrowBook();
         $this->user = User::factory()->create();
+        $this->addBook = new AddBook();
     }
 }

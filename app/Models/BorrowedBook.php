@@ -14,7 +14,8 @@ class BorrowedBook extends Model
         'book_id',
         'pick_up_date',
         'expect_return_date',
-        'return_date'
+        'return_date',
+        'is_approved'
     ];
 
     public function isLate(): bool
