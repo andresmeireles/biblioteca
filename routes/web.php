@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/confirmation', [UserController::class, 'confirmUserEmail']);
 
-Route::get('/login', fn () => view('welcome'));
+Route::get('/login', fn () => view('index'));
 
 Route::get('/', function () {
     return view('index');
