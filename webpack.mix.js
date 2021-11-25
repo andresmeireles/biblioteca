@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,7 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.ts("resources/js/index.tsx", "public/js").react();
+mix.options({
+    hmrOptions: {
+        host: "localhost",
+        port: 4500,
+    },
+});
+
+mix.ts("resources/js/index.tsx", "public/js").react().sourceMaps();
 
 /* mix.js('resources/js/app.js', 'public/js')
     .react()

@@ -1,34 +1,15 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
+import { Route, Routes } from "react-router";
+import { BrowserRouter } from "react-router-dom";
+import Home from "./features/Home/Home";
 
-export interface IUser {
-    name: string;
-    age: number;
-}
-const App = (): ReactElement => {
-    const [users, setUsers] = useState<IUser[]>([
-        {
-            name: "Bijaya",
-            age: 25,
-        },
-        {
-            name: "Ram",
-            age: 25,
-        },
-    ]);
-
+const App = function (): ReactElement {
     return (
-        <div>
-            <h1>Users list</h1>
-            <ul>
-                {users.map((user: IUser) => {
-                    return (
-                        <li key={user.name}>
-                            {user.name} is {user.age} years old
-                        </li>
-                    );
-                })}
-            </ul>
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+            </Routes>
+        </BrowserRouter>
     );
 };
 
