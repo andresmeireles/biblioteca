@@ -22,7 +22,7 @@ class BorrowedBook extends Model
     public function isLate(): bool
     {
         $returnDate = ($this->return_date ?? now())->getTimestamp();
-        $expectedDate = $this->expect_return_date->getTimestamp();
+        $expectedDate = ( new \DateTime($this->expected_return_date) )->getTimestamp();
 
         return $returnDate > $expectedDate;
     }
@@ -30,7 +30,8 @@ class BorrowedBook extends Model
     public function lateDays(): int
     {
         $returnDate = ($this->return_date ?? now()->toDateTime());
-        $lateDays = (int) $this->expect_return_date->diff($returnDate)->format('%R%a');
+        $expectedReturnDate = new \DateTime($this->expected_return_date);
+        $lateDays = (int) $expectedReturnDate->diff($returnDate)->format('%R%a');
 
         return $lateDays <= 0 ? 0 : abs($lateDays);
     }

@@ -19,9 +19,9 @@ class ReturnBook
     ) {
     }
 
-    public function return(int $userId, int $borrowId, ?\DateTime $returnDate = null, bool $isLost = false): BorrowedBook
+    public function return(int $librarianId, int $borrowId, ?\DateTime $returnDate = null, bool $isLost = false): BorrowedBook
     {
-        $user = User::findOrFail($userId);
+        $user = User::findOrFail($librarianId);
         $this->hasBorrowPermissionOrFail($user);
         $borrow = BorrowedBook::findOrFail($borrowId);
         $borrow->return_date = $returnDate ?? new \DateTime();
@@ -47,25 +47,29 @@ class ReturnBook
 
     private function addPenalities(BorrowedBook $borrowedBook): void
     {
-        /** @var CanBorrowBook $canBorrow */
         $canBorrow = CanBorrowBook::where('user_id', $borrowedBook->user_id)->first();
         if ($borrowedBook->is_lost) {
-            $this->blockUser->blockUntil($borrowedBook->user_id, 7);
+            dump($borrowedBook);
+            $this->blockUser->blockUntil((int) $borrowedBook->user_id, 7);
             $canBorrow->increaseCanBorrowDate(28);
             return;
         }
         $lateDays = $borrowedBook->lateDays();
         if ($lateDays < 10) {
             $canBorrow->increaseCanBorrowDate(2);
+            return;
         }
         if ($lateDays >= 10 && $lateDays < 20) {
             $canBorrow->increaseCanBorrowDate(7);
+            return;
         }
         if ($lateDays >= 20 && $lateDays < 30) {
             $canBorrow->increaseCanBorrowDate(14);
+            return;
         }
         if ($lateDays >= 30 && $lateDays < 40) {
             $canBorrow->increaseCanBorrowDate(21);
+            return;
         }
         $canBorrow->increaseCanBorrowDate(28);
     }

@@ -16,6 +16,20 @@ services:
             - MYSQL_PASSWORD=123
         ports:
             - '1701:3306'
+    
+    mariadb:
+        container_name: dt-test-db
+        image: 'mariadb:10.6'
+        working_dir: /application
+        volumes:
+            - '.:/application'
+        environment:
+            - MYSQL_ROOT_PASSWORD=123
+            - MYSQL_DATABASE=biblioteca
+            - MYSQL_USER=user
+            - MYSQL_PASSWORD=123
+        ports:
+            - '1702:3306'
 
     webserver:
         image: 'nginx:alpine'

@@ -25,7 +25,9 @@ class CanBorrowBook extends Model
     public function increaseCanBorrowDate(int $numberOfDays): self
     {
         $newBorrowDate = (new \DateTime())->add(new \DateInterval(sprintf('P%sD', $numberOfDays)));
-        $this->can_borrow_at = $newBorrowDate;
+        $borrowDate = new \DateTime($this->can_borrow_at);
+        $biggerPenality = $borrowDate->getTimestamp() > $newBorrowDate->getTimestamp() ? $borrowDate : $newBorrowDate;
+        $this->can_borrow_at = $biggerPenality;
         $this->update();
 
         return $this;
