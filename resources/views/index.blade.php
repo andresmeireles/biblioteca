@@ -1,5 +1,6 @@
 <body>
   <head>
+  <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <title>biblioteca</title>
   </head>
   <div id="app"></div>

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { ReactElement, ReactNode, useContext, useState } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -9,36 +9,17 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Link from "@mui/material/Link";
-import { Link as RouteLink } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-// import { mainListItems, secondaryListItems } from "./listItems";
-// import Chart from "./Chart";
-// import Deposits from "./Deposits";
-// import Orders from "./Orders";
-
-const Copyright = function (props: any) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        >
-            {"Copyright © "}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{" "}
-            {new Date().getFullYear()}
-        </Typography>
-    );
-};
+import { LockOpen, Search } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import Copyright from "../components/Copyright";
+import { mainListItems, secondaryListItems } from "./Menus";
+import AuthContext from "../contexts/AuthProvider/AuthContext";
+import { AuthActionType } from "../contexts/AuthProvider/AuthActions";
 
 const drawerWidth = 240;
 
@@ -92,17 +73,27 @@ const Drawer = styled(MuiDrawer, {
 
 const mdTheme = createTheme();
 
-const DashboardContent = function () {
-    const [open, setOpen] = React.useState(true);
+const DashboardContent = function (props: {
+    children: ReactNode | ReactElement;
+}): ReactElement {
+    const { children } = props;
+    const [open, setOpen] = useState(true);
     const toggleDrawer = () => {
         setOpen(!open);
+    };
+    const authContext = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const logout = () => {
+        authContext.dispatch({ type: AuthActionType.destroy });
+        navigate("/login");
     };
 
     return (
         <ThemeProvider theme={mdTheme}>
-            <RouteLink to="/h">link</RouteLink>
             <Box sx={{ display: "flex" }}>
                 <CssBaseline />
+                {/* APPBAR */}
                 <AppBar position="absolute" open={open}>
                     <Toolbar
                         sx={{
@@ -128,15 +119,24 @@ const DashboardContent = function () {
                             noWrap
                             sx={{ flexGrow: 1 }}
                         >
-                            Dashboard
+                            <Link to="/" className="nolink">
+                                Biblioteca
+                            </Link>
                         </Typography>
-                        <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
+                        <Tooltip title="pesquisar livros">
+                            <IconButton color="inherit">
+                                <Search />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="logout">
+                            <IconButton color="inherit" onClick={logout}>
+                                <LockOpen />
+                            </IconButton>
+                        </Tooltip>
                     </Toolbar>
                 </AppBar>
+                {/* END APPB */}
+                {/* DRAWLER */}
                 <Drawer variant="permanent" open={open}>
                     <Toolbar
                         sx={{
@@ -151,10 +151,11 @@ const DashboardContent = function () {
                         </IconButton>
                     </Toolbar>
                     <Divider />
-                    {/* <List>{mainListItems}</List>
+                    <List>{mainListItems}</List>
                     <Divider />
-                    <List>{secondaryListItems}</List> */}
+                    <List>{secondaryListItems}</List>
                 </Drawer>
+                {/* END DRAWLER */}
                 <Box
                     component="main"
                     sx={{
@@ -168,47 +169,8 @@ const DashboardContent = function () {
                     }}
                 >
                     <Toolbar />
+                    <Container sx={{ py: 2 }}>{children}</Container>
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                        <Grid container spacing={3}>
-                            {/* Chart */}
-                            <Grid item xs={12} md={8} lg={9}>
-                                <Paper
-                                    sx={{
-                                        p: 2,
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        height: 240,
-                                    }}
-                                >
-                                    {/* <Chart /> */}
-                                </Paper>
-                            </Grid>
-                            {/* Recent Deposits */}
-                            <Grid item xs={12} md={4} lg={3}>
-                                <Paper
-                                    sx={{
-                                        p: 2,
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        height: 240,
-                                    }}
-                                >
-                                    {/* <Deposits /> */}
-                                </Paper>
-                            </Grid>
-                            {/* Recent Orders */}
-                            <Grid item xs={12}>
-                                <Paper
-                                    sx={{
-                                        p: 2,
-                                        display: "flex",
-                                        flexDirection: "column",
-                                    }}
-                                >
-                                    {/* <Orders /> */}
-                                </Paper>
-                            </Grid>
-                        </Grid>
                         <Copyright sx={{ pt: 4 }} />
                     </Container>
                 </Box>
@@ -217,8 +179,11 @@ const DashboardContent = function () {
     );
 };
 
-const Dashboard = function () {
-    return <DashboardContent />;
+const Dashboard = function (props: {
+    children: ReactNode | ReactElement | JSX.Element;
+}): ReactElement {
+    const { children } = props;
+    return <DashboardContent>{children}</DashboardContent>;
 };
 
 export default Dashboard;

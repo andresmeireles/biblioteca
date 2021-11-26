@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +12,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/confirmation', [UserController::class, 'confirmUserEmail']);
 
-Route::get('/login', fn () => view('index'));
+Route::get('/', fn () => view('index'));
 
 Route::get('/{route}', function () {
     return view('index');

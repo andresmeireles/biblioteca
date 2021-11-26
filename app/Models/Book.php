@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\Book
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $code
  * @property string $genre
  * @property int $created_by
+ * @property BookAmount $bookAmount
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Book newModelQuery()
@@ -43,4 +45,9 @@ class Book extends Model
         'genre',
         'created_by'
     ];
+
+    public function bookAmount(): HasOne
+    {
+        return $this->hasOne(BookAmount::class, 'book_id', 'id');
+    }
 }

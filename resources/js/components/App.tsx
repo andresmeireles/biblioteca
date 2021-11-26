@@ -6,9 +6,12 @@ import AuthRoute from "./core/components/Routes/AuthRoute";
 import NonAuthRoute from "./core/components/Routes/NonAuthRoute";
 import AuthProvider from "./core/contexts/AuthProvider/AuthProvider";
 import Home from "./features/Home/Home";
-import Login from "./features/Login/Login";
-import SignUp from "./features/SignUp/SignUp";
+import Login from "./features/Auth/Login";
+import SignUp from "./features/Auth/SignUp";
 import "react-toastify/dist/ReactToastify.css";
+import R404 from "./features/Misc/Route404";
+import Add from "./features/AddBook/Add";
+import ViewAllBooks from "./features/ViewBooks/ViewAllBoks";
 
 const App = function (): ReactElement {
     return (
@@ -28,6 +31,15 @@ const App = function (): ReactElement {
                         path="/"
                         element={<AuthRoute element={<Home />} />}
                     />
+                    <Route
+                        path="/add"
+                        element={<AuthRoute element={<Add />} />}
+                    />
+                    <Route
+                        path="/book"
+                        element={<AuthRoute element={<ViewAllBooks />} />}
+                    />
+                    <Route path="/*" element={<R404 />} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
