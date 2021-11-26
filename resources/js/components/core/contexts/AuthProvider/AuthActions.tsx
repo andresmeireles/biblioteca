@@ -1,18 +1,15 @@
-export enum AuthActionType {
-    login,
-    logout,
-}
+import { AuthState } from "./AuthState";
 
-export interface Login {
-    login: string;
-    password: string;
+export enum AuthActionType {
+    save,
+    destroy,
 }
 
 export type AuthActions =
     | {
-          type: AuthActionType.login;
-          payload: Login;
+          type: AuthActionType.save;
+          payload: AuthState;
       }
     | {
-          type: AuthActionType.logout;
+          type: AuthActionType.destroy;
       };

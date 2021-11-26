@@ -17,6 +17,6 @@ Route::get('/confirmation', [UserController::class, 'confirmUserEmail']);
 
 Route::get('/login', fn () => view('index'));
 
-Route::get('/', function () {
+Route::get('/{route}', function () {
     return view('index');
 });

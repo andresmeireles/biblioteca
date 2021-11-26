@@ -1,17 +1,17 @@
-import { AuthActions, AuthActionType, Login } from "./AuthActions";
+import { ApiAuthUser } from "../../interfaces/ApiUser";
+import { AuthActions, AuthActionType } from "./AuthActions";
+import { initAuthState } from "./AuthContext";
 import { AuthState } from "./AuthState";
 
-const executeLogin = (auth: AuthState, login: Login) => {
-    console.log(`login with ${login.login} `);
-    return {
-        userName: "",
-        isAuthorized: true,
-        apiToken: "",
-    };
+const save = function (state: AuthState): AuthState {
+    localStorage.setItem("auth", JSON.stringify(state));
+
+    return state;
 };
 
-const executeLogout = (auth: AuthState) => {
-    return auth;
+const destroy = () => {
+    localStorage.removeItem("auth");
+    return initAuthState;
 };
 
 const AuthReducer = function (
@@ -19,10 +19,10 @@ const AuthReducer = function (
     action: AuthActions
 ): AuthState {
     switch (action.type) {
-        case AuthActionType.login:
-            return executeLogin(state, action.payload);
-        case AuthActionType.logout:
-            return executeLogout(state);
+        case AuthActionType.save:
+            return save(action.payload);
+        case AuthActionType.destroy:
+            return destroy();
         default:
             return state;
     }
