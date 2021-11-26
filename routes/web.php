@@ -18,3 +18,6 @@ Route::get('/', fn () => view('index'));
 Route::get('/{route}', function () {
     return view('index');
 });
+
+Route::get('/{route}/{subRoute}', fn () => view('index'));
+Route::get('/{route}/{subRoute}/{subSubRoute}', fn () => view('index'));

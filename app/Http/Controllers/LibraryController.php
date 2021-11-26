@@ -7,6 +7,8 @@ namespace App\Http\Controllers;
 use App\Responses\ApiResponse;
 use App\Responses\ConsultResponse;
 use App\Services\Library\AddBook;
+use App\Services\Library\DeleteBook;
+use App\Services\Library\EditBook;
 use App\Services\Library\ViewBook;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,6 +31,31 @@ class LibraryController extends Controller
         }
     }
 
+    public function editBookById(int $bookId, Request $request, EditBook $edit): JsonResponse
+    {
+        try {
+            $user = $request->user();
+            $infoEdit = $request->request->all();
+            $edit = $edit->editById($bookId, $infoEdit, $user);
+            $response = new ConsultResponse($edit, true);
+            return response()->json($response->response());
+        } catch (\Exception $err) {
+            return response()->json(ConsultResponse::fail($err->getMessage())->response());
+        }
+    }
+
+    public function bookById(int $bookId, ViewBook $view): JsonResponse
+    {
+        try {
+            $book = $view->bookWithAmountById($bookId);
+            $response = new ConsultResponse($book, true);
+
+            return response()->json($response->response());
+        } catch (\Exception $err) {
+            return response()->json(ConsultResponse::fail($err->getMessage())->response());
+        }
+    }
+
     public function booksCreatedBy(Request $request, ViewBook $viewBook): JsonResponse
     {
         try {
@@ -47,5 +74,19 @@ class LibraryController extends Controller
         $response = new ConsultResponse($book->all(), true);
 
         return response()->json($response->response());
+    }
+
+    public function removeBook(int $bookId, Request $request, DeleteBook $delete): JsonResponse
+    {
+        try {
+            $user = $request->user();
+            $response = $delete->deleteById($bookId, $user);
+            $response = new ConsultResponse('livro removido com sucesso', true);
+            return response()->json($response->response());
+        } catch (\Exception $err) {
+            $response = ConsultResponse::fail($err->getMessage());
+
+            return response()->json($response->response());
+        }
     }
 }

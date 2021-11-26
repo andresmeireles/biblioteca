@@ -19,4 +19,9 @@ class BookAmount extends Model
     {
         return $this->available_amount >= 1;
     }
+
+    public function getBookIdAttribute(string $value): Book
+    {
+        return Book::findOrFail((int) $value);
+    }
 }

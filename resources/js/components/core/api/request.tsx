@@ -49,3 +49,22 @@ export async function getWithToken<T>(uri: string): Promise<ApiResponse<T>> {
     });
     return response.data;
 }
+
+export async function deleteWithToken<T>(uri: string): Promise<ApiResponse<T>> {
+    const response = await getAxios().delete<ApiResponse<T>>(uri, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+
+    return response.data;
+}
+
+export async function putWithToken<T>(uri: string, body: any) {
+    const response = await getAxios().put<ApiResponse<T>>(uri, body, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+    return response.data;
+}

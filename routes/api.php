@@ -31,8 +31,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('book')->group(function () {
         Route::get('/', [LibraryController::class, 'books']);
-        Route::get('books-created-by', [LibraryController::class, 'booksCreatedBy']);
+        Route::get('/books-created-by', [LibraryController::class, 'booksCreatedBy']);
+        Route::get('/{bookId}', [LibraryController::class, 'bookById']);
 
         Route::post('add', [LibraryController::class, 'addBook']);
+
+        Route::put('/{bookId}', [LibraryController::class, 'editBookById']);
+
+        Route::delete('/{bookId}', [LibraryController::class, 'removeBook']);
     });
 });

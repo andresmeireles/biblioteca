@@ -24,7 +24,7 @@ class EditBook
         $book->name = $bookData['name'];
         $book->code = $bookData['code'];
         $book->author = $bookData['author'];
-        $book->publication_year = $bookData['publication_year'];
+        $book->publication_year = $bookData['publication_year'] ?? $bookData['publicationYear'];
         $book->genre = $bookData['genre'];
         $book->update();
 

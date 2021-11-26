@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Services\Library;
 
 use App\Models\Book;
+use App\Models\BookAmount;
+use Doctrine\DBAL\Query\QueryException as QueryQueryException;
 use Illuminate\Support\Collection;
 
 class ViewBook
@@ -15,6 +17,16 @@ class ViewBook
     public function all(): Collection|array
     {
         return Book::all();
+    }
+
+    public function bookWithAmountById(int $id): BookAmount
+    {
+        $book = BookAmount::where('book_id', $id)->first();
+        if ($book === null) {
+            throw new QueryQueryException('elemento not found');
+        }
+
+        return $book;
     }
 
     /**
