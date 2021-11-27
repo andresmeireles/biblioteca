@@ -15,6 +15,10 @@ import Add from "./features/Book/AddBook/Add";
 import ViewAllBooks from "./features/Book/ViewBooks/ViewAllBoks";
 import EditBook from "./features/Book/EditBook/EditBook";
 import BookNested from "./features/Book/BookNested";
+import MyBooks from "./features/Book/MyBooks/MyBooks";
+import VerifyEmail from "./features/Auth/VerifyEmail";
+import EmailConfirmation from "./features/Auth/EmailConfirmation";
+import ForgotPassword from "./features/Auth/ForgotPassword";
 
 const App = function (): ReactElement {
     return (
@@ -31,6 +35,14 @@ const App = function (): ReactElement {
                         element={<NonAuthRoute element={<SignUp />} />}
                     />
                     <Route
+                        path="verify-email"
+                        element={<NonAuthRoute element={<VerifyEmail />} />}
+                    />
+                    <Route
+                        path="forgot-password"
+                        element={<NonAuthRoute element={<ForgotPassword />} />}
+                    />
+                    <Route
                         path="/"
                         element={<AuthRoute element={<Home />} />}
                     />
@@ -39,13 +51,22 @@ const App = function (): ReactElement {
                         element={<AuthRoute element={<Add />} />}
                     />
                     <Route
-                        path="/book"
+                        path="confirmation"
+                        element={<EmailConfirmation />}
+                    />
+                    <Route
+                        path="book"
                         element={<AuthRoute element={<BookNested />} />}
                     >
                         <Route
                             key={nanoid()}
                             path=""
                             element={<AuthRoute element={<ViewAllBooks />} />}
+                        />
+                        <Route
+                            key={nanoid()}
+                            path="user/:user"
+                            element={<AuthRoute element={<MyBooks />} />}
                         />
                         <Route
                             key={nanoid()}

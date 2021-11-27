@@ -5,7 +5,7 @@ import { ApiResponse } from "../interfaces/ApiResponse";
 export function getAxios(): AxiosInstance {
     const instance = axios.create({
         baseURL: env.apiUrl,
-        timeout: 1000,
+        timeout: 15000,
         withCredentials: true,
         headers: {
             "Content-type": "application/json; charset=utf-8",
@@ -15,11 +15,13 @@ export function getAxios(): AxiosInstance {
     return instance;
 }
 
-export async function post<T>(
-    uri: string,
-    body: Record<string, unknown>
-): Promise<ApiResponse<T>> {
+export async function post<T>(uri: string, body: any): Promise<ApiResponse<T>> {
     const response = await getAxios().post<ApiResponse<T>>(uri, body);
+    return response.data;
+}
+
+export async function get<T>(uri: string): Promise<ApiResponse<T>> {
+    const response = await getAxios().get<ApiResponse<T>>(uri);
     return response.data;
 }
 

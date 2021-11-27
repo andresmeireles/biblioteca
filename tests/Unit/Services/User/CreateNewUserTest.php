@@ -36,4 +36,76 @@ class CreateNewUserTest extends TestCase
 
         $this->assertIsObject($result);
     }
+
+    public function testInvlidUsername(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $result = $this->createNewUser->regularUser([
+            'name' => 'test',
+            'username' => 'testuser name',
+            'email' => 'testemail@gmail.com',
+            'password' => 'senha123',
+            'password_confirmation' => 'senha123'
+        ]);
+
+        $this->assertIsObject($result);
+    }
+
+    public function testInvlidEmail(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $result = $this->createNewUser->regularUser([
+            'name' => 'test',
+            'username' => 'testusername',
+            'email' => 'testemailgmail.com',
+            'password' => 'senha123',
+            'password_confirmation' => 'senha123'
+        ]);
+
+        $this->assertIsObject($result);
+    }
+
+    public function testCreateUserWithSameEmail(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $result = $this->createNewUser->regularUser([
+            'name' => 'test',
+            'username' => 'testusername',
+            'email' => 'testemail@gmail.com',
+            'password' => 'senha123',
+            'password_confirmation' => 'senha123'
+        ]);
+        $this->createNewUser->regularUser([
+            'name' => 'test',
+            'username' => 'testusername',
+            'email' => 'testemail@gmail.com',
+            'password' => 'senha123',
+            'password_confirmation' => 'senha123'
+        ]);
+
+        $this->assertIsObject($result);
+    }
+
+    public function testCreateUserWithSameUsername(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $result = $this->createNewUser->regularUser([
+            'name' => 'test',
+            'username' => 'testusername',
+            'email' => 'testemailccc@gmail.com',
+            'password' => 'senha123',
+            'password_confirmation' => 'senha123'
+        ]);
+        $this->createNewUser->regularUser([
+            'name' => 'test',
+            'username' => 'testusername',
+            'email' => 'testemail@gmail.com',
+            'password' => 'senha123',
+            'password_confirmation' => 'senha123'
+        ]);
+
+        $this->assertIsObject($result);
+    }
 }

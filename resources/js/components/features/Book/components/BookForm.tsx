@@ -1,7 +1,10 @@
 import React, { FormEvent, ReactElement, useState } from "react";
 import { Grid, TextField, Button } from "@mui/material";
 import { Box } from "@mui/system";
-import { BookFormInterface, BookWithAmount } from "../../interfaces/Library";
+import {
+    BookFormInterface,
+    BookWithAmount,
+} from "../../../core/interfaces/Library";
 
 type BookFormType = {
     handleSubmit: (form: BookFormInterface) => void;

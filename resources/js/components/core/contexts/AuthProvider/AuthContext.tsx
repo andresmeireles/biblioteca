@@ -6,6 +6,7 @@ export const initAuthState = {
     userName: "",
     isAuthorized: false,
     apiToken: "",
+    emailVerify: true,
 };
 
 export interface AuthContextInterface {

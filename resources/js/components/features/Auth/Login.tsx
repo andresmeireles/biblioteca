@@ -110,7 +110,7 @@ const SignIn = function () {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="/singup" variant="body2">
+                                <Link href="/signup" variant="body2">
                                     Não tem uma conta? Cadastre-se!
                                 </Link>
                             </Grid>

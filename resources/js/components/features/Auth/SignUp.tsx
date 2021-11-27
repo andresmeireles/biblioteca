@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,20 +10,37 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link as RouteLink } from "react-router-dom";
+import { Link as RouteLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Copyright from "../../core/components/Copyright";
+import { signup } from "./Action";
 
 const theme = createTheme();
 
 const SignUp = function () {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
+        const name = data.get("name") as string;
+        const username = data.get("username") as string;
+        const email = data.get("email") as string;
+        const password = data.get("password") as string;
+        const passwordConfirm = data.get("password-confirm") as string;
+        const newUser = await signup({
+            name,
+            username,
+            email,
+            password,
+            password_confirmation: passwordConfirm,
         });
+        if (newUser.success) {
+            toast.success("usuario criado com sucesso!");
+            navigate("/login");
+            return;
+        }
+        toast.error(newUser.message as string);
     };
 
     return (
@@ -72,7 +87,6 @@ const SignUp = function () {
                                     fullWidth
                                     id="username"
                                     label="Seu nome de usuário"
-                                    autoFocus
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -101,10 +115,10 @@ const SignUp = function () {
                                 <TextField
                                     required
                                     fullWidth
-                                    name="password"
+                                    name="password-confirm"
                                     label="Confirme sua senha"
                                     type="password"
-                                    id="password"
+                                    id="password-confirm"
                                     autoComplete="new-password"
                                 />
                             </Grid>

@@ -28,4 +28,8 @@ class AuthController extends Controller
 
         return response()->json((new ConsultResponse('', false))->response());
     }
+
+    public function forgotPasswordEmail(Request $request, ): JsonResponse
+    {
+    }
 }

@@ -3,13 +3,13 @@ import React, { FormEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { editBook, getBookById } from "../../../core/api/Library/Book";
-import BookForm from "../../../core/components/Book/BookForm";
 import {
     Book,
     BookFormInterface,
     BookWithAmount,
 } from "../../../core/interfaces/Library";
 import Scaffold from "../../../core/templates/Scaffold";
+import BookForm from "../components/BookForm";
 
 const EditBook = function () {
     const { id } = useParams<"id">();

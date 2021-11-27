@@ -7,63 +7,15 @@ import {
     List,
 } from "@mui/material";
 import React, { ReactElement, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { nanoid } from "nanoid";
 import { getAllBooks } from "../../../core/api/Library/Book";
 import { Book } from "../../../core/interfaces/Library";
 import Scaffold from "../../../core/templates/Scaffold";
-import RemoveBookDialog from "./components/RemoveBookDialog";
+import ViewItem from "./components/ViewItem";
 
 const RenderBookList = function (props: { books: Book[] }) {
-    const [open, setOpen] = useState(false);
-    const toggleDialog = () => setOpen(!open);
-
     const { books } = props;
-    const render = books.map((book) => (
-        <Grid container spacing={2} key={nanoid()}>
-            <RemoveBookDialog
-                open={open}
-                handleClose={toggleDialog}
-                bookId={book.id}
-            />
-            <Grid item xs={3}>
-                {book.name}
-            </Grid>
-            <Grid item xs={2}>
-                {book.author}
-            </Grid>
-            <Grid item xs={1}>
-                {book.genre}
-            </Grid>
-            <Grid item xs={2}>
-                <Button component={Link} to={`/book/${book.id}`} color="info">
-                    visualizar
-                </Button>
-            </Grid>
-            <Grid item xs={2}>
-                <Button
-                    component={Link}
-                    to={`/book/edit/${book.id}`}
-                    color="warning"
-                >
-                    editar
-                </Button>
-            </Grid>
-            <Grid item xs={2}>
-                <Button
-                    component={Link}
-                    to={`/book/${book.id}`}
-                    color="error"
-                    onClick={(event: React.MouseEvent) => {
-                        event.preventDefault();
-                        toggleDialog();
-                    }}
-                >
-                    remover
-                </Button>
-            </Grid>
-        </Grid>
-    ));
+    const render = books.map((book) => <ViewItem book={book} key={nanoid()} />);
 
     return <List>{render}</List>;
 };
@@ -87,6 +39,23 @@ const ViewAllBooks = function (): ReactElement {
             <Card>
                 <CardHeader title="lista de livros" />
                 <CardContent>
+                    <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                            <b>Nome</b>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <b>Autor</b>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <b>Genero</b>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <b>Cadastrado por</b>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <b>Ações</b>
+                        </Grid>
+                    </Grid>
                     {books === undefined ? (
                         "carregando"
                     ) : (

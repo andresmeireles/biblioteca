@@ -17,9 +17,10 @@ import { Tooltip } from "@mui/material";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import Copyright from "../components/Copyright";
-import { mainListItems, secondaryListItems } from "./Menus";
+// import { mainListItems, secondaryListItems } from "./Menus";
 import AuthContext from "../contexts/AuthProvider/AuthContext";
 import { AuthActionType } from "../contexts/AuthProvider/AuthActions";
+import Menus from "./Menus";
 
 const drawerWidth = 240;
 
@@ -151,9 +152,11 @@ const DashboardContent = function (props: {
                         </IconButton>
                     </Toolbar>
                     <Divider />
-                    <List>{mainListItems}</List>
+                    <List>
+                        <Menus />
+                    </List>
                     <Divider />
-                    <List>{secondaryListItems}</List>
+                    {/* <List>{secondaryListItems}</List> */}
                 </Drawer>
                 {/* END DRAWLER */}
                 <Box

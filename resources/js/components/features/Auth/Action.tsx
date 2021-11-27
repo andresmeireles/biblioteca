@@ -1,8 +1,13 @@
-import { post } from "../../core/api/request";
+import { toast } from "react-toastify";
+import { get, post } from "../../core/api/request";
 import { AuthActionType } from "../../core/contexts/AuthProvider/AuthActions";
 import { AuthContextInterface } from "../../core/contexts/AuthProvider/AuthContext";
-import { ApiResponse } from "../../core/interfaces/ApiResponse";
-import { ApiAuthUser } from "../../core/interfaces/ApiUser";
+import {
+    ApiResponse,
+    FailApiResponse,
+} from "../../core/interfaces/ApiResponse";
+import { ApiAuthUser, ApiUser } from "../../core/interfaces/ApiUser";
+import { Register } from "../../core/interfaces/AuthInterface";
 
 export async function apiLogin(props: {
     login: string;
@@ -28,6 +33,36 @@ export function saveCredentials(
             userName: credentials.user.username,
             apiToken: credentials.token,
             isAuthorized: true,
+            emailVerify: true,
         },
     });
+}
+
+export async function signup(
+    props: Register
+): Promise<ApiResponse<ApiUser | string>> {
+    const { password, password_confirmation } = props;
+    if (password !== password_confirmation) {
+        return FailApiResponse("senhas não são iguais");
+    }
+    const register = await post<ApiUser | string>("/api/register", props);
+    return register;
+}
+
+export async function sendConfirmEmailByUsername(
+    username: string
+): Promise<ApiResponse<string>> {
+    return post<string>("/api/confirmEmail", { username });
+}
+
+export async function verifyUserEmail(
+    query: string
+): Promise<ApiResponse<ApiAuthUser | string>> {
+    return get<ApiAuthUser | string>(`/api/verifyEmail${query}`);
+}
+
+export async function sendForgotPasswordLink(
+    email: string
+): Promise<ApiResponse<string>> {
+    return post<string>(`api/forgot-password`, { email });
 }

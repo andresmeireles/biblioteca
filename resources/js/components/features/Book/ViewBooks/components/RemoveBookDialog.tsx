@@ -10,7 +10,6 @@ const RemoveBookDialog = function (props: {
     bookId: number;
     handleClose: () => void;
 }) {
-    const navigate = useNavigate();
     const { open, bookId, handleClose } = props;
 
     const executeRemove = async () => {
@@ -27,9 +26,10 @@ const RemoveBookDialog = function (props: {
 
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogContent>
+            <DialogContent title={`remover livro ${bookId}`}>
                 <DialogActions>
-                    tem certeza, essa ação não poderá ser desfeita.
+                    confirm a removeção do livro {bookId}, essa ação não poderá
+                    ser desfeita.
                 </DialogActions>
             </DialogContent>
             <DialogActions>

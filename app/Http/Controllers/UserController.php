@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Responses\ApiResponse;
 use App\Responses\ConsultResponse;
 use App\Services\User\ConfirmEmail;
 use App\Services\User\CreateNewUser;
@@ -15,6 +17,7 @@ class UserController extends Controller
         try {
             $data = $request->request->all();
             $user = $createNewUser->regularUser($data);
+
             $response = new ConsultResponse($user);
 
             return response()->json($response->response());
@@ -23,16 +26,34 @@ class UserController extends Controller
         }
     }
 
-    // TODO essa classe deverá ser atualizada quando o frontend for feito, junto com seus testes.
-    public function confirmUserEmail(Request $request, ConfirmEmail $confirmEmail): string
+    public function sendConfirmEmail(Request $request, CreateNewUser $newUser): JsonResponse
+    {
+        try {
+            $user = User::where('username', $request->request->get('username'))->first();
+            $newUser->sendConfirmationEmail($user);
+            $responseMessage = 'email de confirmação enviado!';
+        } catch (\Exception $err) {
+            $responseMessage = $err->getMessage();
+        }
+
+        return response()->json((new ApiResponse($responseMessage, true))->response());
+    }
+
+    public function verifyUserEmail(Request $request, ConfirmEmail $confirmEmail): JsonResponse
     {
         $userId = (int) $request->query->getDigits('u');
         $hash = $request->query->getAlnum('h');
         try {
             $user = $confirmEmail->confim($userId, $hash);
-            return sprintf('email %s confirmado com sucesso', $user->email);
+            $authUser = [
+                'user' => $user,
+                'token' => $user->createToken('api')->plainTextToken
+            ];
+            $response = new ConsultResponse($authUser, true);
         } catch (\Exception $err) {
-            return $err->getMessage();
+            $response = new ApiResponse($err->getMessage(), false);
         }
+
+        return response()->json($response->response());
     }
 }

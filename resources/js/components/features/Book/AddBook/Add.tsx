@@ -3,9 +3,9 @@ import { Card, CardContent, CardHeader, Container } from "@mui/material";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import Scaffold from "../../../core/templates/Scaffold";
-import BookForm from "../../../core/components/Book/BookForm";
 import AddBook from "./AddBook";
 import { BookFormInterface } from "../../../core/interfaces/Library";
+import BookForm from "../components/BookForm";
 
 const Add = function (): ReactElement {
     const navigate = useNavigate();
