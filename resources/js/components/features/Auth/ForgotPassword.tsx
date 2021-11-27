@@ -2,15 +2,16 @@ import { Avatar, Button, TextField, Typography } from "@mui/material";
 import React, { FormEvent, ReactElement, useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Box } from "@mui/system";
-import CleanScaffold from "../../core/templates/NonDashboardScaffol";
 import { toast } from "react-toastify";
+import { sendForgotPasswordLink } from "./Action";
+import CleanScaffold from "../../core/templates/NonDashboardScaffol";
 
 const ForgotPassword = function (): ReactElement {
     const [email, setEmail] = useState("");
 
     const handleSubmit = async (event: FormEvent<HTMLElement>) => {
         event.preventDefault();
-        const forgotPasswordLink = await sendForgotPasswordEmail(email);
+        const forgotPasswordLink = await sendForgotPasswordLink(email);
         toast.success(forgotPasswordLink.message);
     };
 

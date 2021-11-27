@@ -66,3 +66,20 @@ export async function sendForgotPasswordLink(
 ): Promise<ApiResponse<string>> {
     return post<string>(`api/forgot-password`, { email });
 }
+
+export async function verifyCanChange(
+    query: string
+): Promise<ApiResponse<string>> {
+    return get(`/api/canRedefineForgotPassword${query}`);
+}
+
+export async function changeForgotPassword(props: {
+    query: string;
+    password: {
+        password: string;
+        password_confirmation: string;
+    };
+}): Promise<ApiResponse<string>> {
+    const { query, password } = props;
+    return post(`/api/changeForgottenPassword${query}`, password);
+}

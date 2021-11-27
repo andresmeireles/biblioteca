@@ -1,3 +1,3 @@
-Olá seu aparte nesse link para confirmar seu email!
+Olá! Para confirmar seu email aparte nesse link! 
 
 {{$confirmationLink}}

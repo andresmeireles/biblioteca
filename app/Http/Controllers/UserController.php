@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Responses\ApiResponse;
 use App\Responses\ConsultResponse;
+use App\Services\User\ChangeForgottenPassword;
 use App\Services\User\ConfirmEmail;
 use App\Services\User\CreateNewUser;
 use Illuminate\Http\JsonResponse;
@@ -55,5 +56,21 @@ class UserController extends Controller
         }
 
         return response()->json($response->response());
+    }
+
+    public function changeForgottenPassword(Request $request, ChangeForgottenPassword $change): JsonResponse
+    {
+        $query = $request->query;
+        $req = $request->request->all();
+        $user = $query->getInt('u');
+        $hash = (string) $query->get('f');
+        try {
+            $changePassword = $change->change($user, $hash, $req);
+            $response = new ApiResponse('senha trocada com sucesso', $changePassword);
+
+            return response()->json($response->response());
+        } catch (\Exception $err) {
+            return response()->json(ConsultResponse::fail($err->getMessage())->response());
+        }
     }
 }

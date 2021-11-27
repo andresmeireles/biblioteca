@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -15,9 +18,9 @@ class SendForgotPasswordEmail extends Mailable
      *
      * @return void
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        private User $user
+    ) {
     }
 
     /**
@@ -27,6 +30,16 @@ class SendForgotPasswordEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        $forgotHash = password_hash($this->user->username, PASSWORD_DEFAULT);
+        $forgotPasswordLink = sprintf(
+            '%s/change-forgot-password?u=%s&f=%s',
+            env('APP_URL'),
+            $this->user->id,
+            $forgotHash
+        );
+
+        return $this->view('email.auth.forgotEmail', [
+            'forgotPasswordLink' => $forgotPasswordLink
+        ]);
     }
 }

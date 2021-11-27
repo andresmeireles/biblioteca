@@ -18,11 +18,14 @@ use Illuminate\Support\Facades\Route;
 |
  */
 Route::get('/verifyEmail', [UserController::class, 'verifyUserEmail']);
+Route::get('/changeForgotenPassword', [UserController::class, 'changePasswordWhenForgotten']);
+Route::get('/canRedefineForgotPassword', [AuthController::class, 'canRedifineForgottenPassword']);
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPasswordEmail']);
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/confirmEmail', [UserController::class, 'sendConfirmEmail']);
+Route::post('/changeForgottenPassword', [UserController::class, 'changeForgottenPassword']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('verifyEmailApi')->group(function () {

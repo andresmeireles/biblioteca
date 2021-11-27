@@ -19,6 +19,7 @@ import MyBooks from "./features/Book/MyBooks/MyBooks";
 import VerifyEmail from "./features/Auth/VerifyEmail";
 import EmailConfirmation from "./features/Auth/EmailConfirmation";
 import ForgotPassword from "./features/Auth/ForgotPassword";
+import ChangeForgotPassword from "./features/Auth/ChangeForgotPasswrod";
 
 const App = function (): ReactElement {
     return (
@@ -41,6 +42,12 @@ const App = function (): ReactElement {
                     <Route
                         path="forgot-password"
                         element={<NonAuthRoute element={<ForgotPassword />} />}
+                    />
+                    <Route
+                        path="change-forgot-password"
+                        element={
+                            <NonAuthRoute element={<ChangeForgotPassword />} />
+                        }
                     />
                     <Route
                         path="/"
