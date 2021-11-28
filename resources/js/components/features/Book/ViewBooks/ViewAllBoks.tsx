@@ -1,19 +1,12 @@
-import {
-    Button,
-    Card,
-    CardContent,
-    CardHeader,
-    Grid,
-    List,
-} from "@mui/material";
+import { Card, CardContent, CardHeader, Grid, List } from "@mui/material";
 import React, { ReactElement, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
-import { getAllBooks } from "../../../core/api/Library/Book";
-import { Book } from "../../../core/interfaces/Library";
+import { getAllBooksWithAmount } from "../../../core/api/Library/Book";
+import { Book, BookWithAmount } from "../../../core/interfaces/Library";
 import Scaffold from "../../../core/templates/Scaffold";
-import ViewItem from "./components/ViewItem";
+import ViewItem from "../components/ViewItem";
 
-const RenderBookList = function (props: { books: Book[] }) {
+const RenderBookList = function (props: { books: BookWithAmount[] }) {
     const { books } = props;
     const render = books.map((book) => <ViewItem book={book} key={nanoid()} />);
 
@@ -21,13 +14,13 @@ const RenderBookList = function (props: { books: Book[] }) {
 };
 
 const ViewAllBooks = function (): ReactElement {
-    const [books, setBooks] = useState<Book[]>();
+    const [books, setBooks] = useState<BookWithAmount[]>();
 
     useEffect(() => {
         const get = async () => {
-            const getBooks = await getAllBooks();
+            const getBooks = await getAllBooksWithAmount();
             if (getBooks.success) {
-                setBooks(getBooks.message as Book[]);
+                setBooks(getBooks.message as BookWithAmount[]);
             }
         };
 

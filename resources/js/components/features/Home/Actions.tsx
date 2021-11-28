@@ -1,7 +1,7 @@
-import { getBooks } from "../../core/api/Library/Book";
+import { getUserBooks } from "../../core/api/Library/Book";
 
 export async function bookAmount(): Promise<number> {
-    const books = await getBooks();
+    const books = await getUserBooks();
     if (!books.success) {
         return 0;
     }

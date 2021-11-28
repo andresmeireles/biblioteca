@@ -20,6 +20,9 @@ import VerifyEmail from "./features/Auth/VerifyEmail";
 import EmailConfirmation from "./features/Auth/EmailConfirmation";
 import ForgotPassword from "./features/Auth/ForgotPassword";
 import ChangeForgotPassword from "./features/Auth/ChangeForgotPasswrod";
+import AskBorrow from "./features/Borrow/AskBorrow";
+import MyBorrows from "./features/Borrow/MyBorrows";
+import ToApproveBorrows from "./features/Borrow/ToApproveBorrows";
 
 const App = function (): ReactElement {
     return (
@@ -81,6 +84,18 @@ const App = function (): ReactElement {
                             element={<AuthRoute element={<EditBook />} />}
                         />
                     </Route>
+                    <Route
+                        path="borrow"
+                        element={<AuthRoute element={<AskBorrow />} />}
+                    />
+                    <Route
+                        path="my-borrows"
+                        element={<AuthRoute element={<MyBorrows />} />}
+                    />
+                    <Route
+                        path="to-approve-borrows"
+                        element={<AuthRoute element={<ToApproveBorrows />} />}
+                    />
                     <Route path="*" element={<R404 />} />
                 </Routes>
             </BrowserRouter>

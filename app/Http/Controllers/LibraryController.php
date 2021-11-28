@@ -7,6 +7,8 @@ namespace App\Http\Controllers;
 use App\Responses\ApiResponse;
 use App\Responses\ConsultResponse;
 use App\Services\Library\AddBook;
+use App\Services\Library\Borrow\BorrowBook;
+use App\Services\Library\Borrow\ViewBorrow;
 use App\Services\Library\DeleteBook;
 use App\Services\Library\EditBook;
 use App\Services\Library\ViewBook;
@@ -76,6 +78,18 @@ class LibraryController extends Controller
         return response()->json($response->response());
     }
 
+    public function booksWithAmount(ViewBook $book): JsonResponse
+    {
+        try {
+            $books = $book->bookWithAmount();
+            $result = new ConsultResponse($books, true);
+
+            return response()->json($result->response());
+        } catch (\Exception $err) {
+            return response()->json((new ApiResponse($err->getMessage(), false))->response());
+        }
+    }
+
     public function removeBook(int $bookId, Request $request, DeleteBook $delete): JsonResponse
     {
         try {
@@ -87,6 +101,58 @@ class LibraryController extends Controller
             $response = ConsultResponse::fail($err->getMessage());
 
             return response()->json($response->response());
+        }
+    }
+
+    public function borrow(Request $request, BorrowBook $borrow): JsonResponse
+    {
+        try {
+            $bookId = $request->request->getInt('bookId');
+            $user = $request->user();
+            $expectReturnDate = (string) $request->request->get('expectedReturnDate');
+            $result = $borrow->borrow($bookId, $user, new \DateTime(), new \DateTime($expectReturnDate));
+            $response = new ConsultResponse($result);
+
+            return response()->json($response->response());
+        } catch (\Exception $err) {
+            return response()->json(ConsultResponse::fail($err->getMessage())->response());
+        }
+    }
+
+    public function toApproveBorrows(ViewBorrow $view): JsonResponse
+    {
+        try {
+            $borrows = $view->toApprove();
+            return response()->json((new ConsultResponse($borrows))->response());
+        } catch (\Exception $err) {
+            return response()->json(ConsultResponse::fail($err->getMessage())->response());
+        }
+    }
+
+    public function setApprove(Request $request, BorrowBook $borrow): JsonResponse
+    {
+        try {
+            $user = $request->user();
+            $borrowId = $request->request->getInt('borrowId');
+            $status = $request->request->getBoolean('status');
+            $borrowBook = $borrow->changeApproveStatus($user, $borrowId, $status);
+            $response = new ConsultResponse($borrowBook);
+
+            return response()->json($response->response());
+        } catch (\Exception $err) {
+            return response()->json(ConsultResponse::fail($err->getMessage())->response());
+        }
+    }
+
+    public function borrowBookByUser(Request $request, ViewBorrow $viewBorrow): JsonResponse
+    {
+        try {
+            $user = $request->user();
+            $borrowedBooks = $viewBorrow->byUser($user->id);
+
+            return response()->json((new ConsultResponse($borrowedBooks))->response());
+        } catch (\Exception $err) {
+            return response()->json(ConsultResponse::fail($err->getMessage())->response());
         }
     }
 }

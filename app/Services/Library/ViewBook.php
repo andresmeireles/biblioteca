@@ -30,10 +30,21 @@ class ViewBook
     }
 
     /**
-     * @return \Illuminate\Support\Collection|array<Book>
+     * @return \Illuminate\Support\Collection|array<BookAmount>
+     */
+    public function bookWithAmount(): Collection|array
+    {
+        return BookAmount::all();
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection|array<BookAmount>
      */
     public function booksCreatedBy(int $userId): Collection|array
     {
-        return Book::where('created_by', $userId)->get();
+        $books = Book::where('created_by', $userId)->get();
+        $booksWithAmount = $books->map(fn (Book $book) => BookAmount::where('book_id', $book->id)->first());
+
+        return $booksWithAmount;
     }
 }

@@ -1,3 +1,5 @@
+import { ApiUser } from "./ApiUser";
+
 export interface BookFormInterface {
     name: string;
     author: string;
@@ -37,4 +39,15 @@ export interface BookWithAmount {
 
 export function emptyBookWithAmount() {
     return { book: emptyBook(), amount: 1, available_amount: 0 };
+}
+
+export interface BorrowedBook {
+    id: number;
+    user_id: ApiUser;
+    book_id: Book;
+    pick_up_date: string;
+    expected_return_date: string;
+    return_date: string | null;
+    is_approve: boolean | null;
+    finished: boolean;
 }

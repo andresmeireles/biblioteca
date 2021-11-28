@@ -1,14 +1,52 @@
 import { Card, CardContent, CardHeader } from "@mui/material";
-import React, { ReactElement } from "react";
+import { nanoid } from "nanoid";
+import React, { ReactElement, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { getUserBooks } from "../../../core/api/Library/Book";
+import { BookWithAmount } from "../../../core/interfaces/Library";
 import Scaffold from "../../../core/templates/Scaffold";
+import ViewItem from "../components/ViewItem";
+
+const BookList = function (props: { books: BookWithAmount[] }) {
+    const { books } = props;
+    const { name } = books[0].book_id;
+
+    return (
+        <Card>
+            <CardHeader title={`livros de ${name}`} />
+            <CardContent>
+                {books.map((book) => (
+                    <ViewItem book={book} key={nanoid()} />
+                ))}
+            </CardContent>
+        </Card>
+    );
+};
 
 const MyBooks = function (): ReactElement {
+    const [books, setBooks] = useState<BookWithAmount[]>();
+
+    useEffect(() => {
+        const get = async () => {
+            const userBookList = await getUserBooks();
+            if (!userBookList.success) {
+                toast.error(userBookList.message as string);
+                setBooks([]);
+                return;
+            }
+            setBooks(userBookList.message as BookWithAmount[]);
+        };
+
+        get();
+    }, []);
+
     return (
         <Scaffold>
-            <Card>
-                <CardHeader title="livros de alguém" />
-                <CardContent>livros</CardContent>
-            </Card>
+            {books === undefined ? (
+                <div>carregando...</div>
+            ) : (
+                <BookList books={books} />
+            )}
         </Scaffold>
     );
 };

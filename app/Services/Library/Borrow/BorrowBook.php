@@ -15,9 +15,9 @@ class BorrowBook
 {
     use LibraryPermissionTrait;
 
-    public function borrow(int $bookId, int $userId, \DateTime $pickUpDate, \DateTime $expectReturnDate): BorrowedBook
+    public function borrow(int $bookId, User $user, \DateTime $pickUpDate, \DateTime $expectReturnDate): BorrowedBook
     {
-        if (!$this->userCanBorrow($userId)) {
+        if (!$this->userCanBorrow($user)) {
             throw new UserCannotBorrowException('usuário não pode pedir livros emprestados até uma data');
         }
         if (!$this->bookHasStore($bookId)) {
@@ -26,34 +26,37 @@ class BorrowBook
         if ($pickUpDate->getTimestamp() >= $expectReturnDate->getTimestamp()) {
             throw new \LogicException('data de entrega não pode ser menor ou igual a data de retirada');
         }
-
-        return BorrowedBook::create([
-            'user_id' => $userId,
+        $borrow = BorrowedBook::create([
+            'user_id' => $user->id,
             'book_id' => $bookId,
             'pick_up_date' => $pickUpDate,
             'expected_return_date' => $expectReturnDate,
         ]);
+        BookAmount::minusOneAvailable($bookId);
+
+        return $borrow;
     }
 
-    public function changeApproveStatus(int $userId, int $borrowId, bool $isAprove): BorrowedBook
+    public function changeApproveStatus(User $user, int $borrowId, bool $isAprove): BorrowedBook
     {
-        $user = User::findOrFail($userId);
         $borrow = BorrowedBook::findOrFail($borrowId);
         $this->hasBorrowPermissionOrFail($user);
         $borrow->is_approved = $isAprove;
         $borrow->finished = !$isAprove;
         $borrow->update();
-        
+        if ($borrow->finished) {
+            BookAmount::plusOneAvailable($borrow->book_id->id);
+        }
+
         return $borrow;
     }
 
-    public function userCanBorrow(int $userId): bool
+    public function userCanBorrow(User $user): bool
     {
-        $user = User::findOrFail($userId);
         $userCanBorrow = CanBorrowBook::where('user_id', $user->id)->first();
         if ($userCanBorrow === null) {
             $canBorrow = CanBorrowBook::create([
-                'user_id' => $userId
+                'user_id' => $user->id
             ]);
 
             return $canBorrow->canBorrow();

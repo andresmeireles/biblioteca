@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
 import { Outlet } from "react-router";
 
-const BookNested = function (): ReactElement {
+const NestedBorrow = function (): ReactElement {
     return <Outlet />;
 };
 
-export default BookNested;
+export default NestedBorrow;

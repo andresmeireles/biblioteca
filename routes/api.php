@@ -40,12 +40,19 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::prefix('book')->group(function () {
             Route::get('/', [LibraryController::class, 'books']);
+            Route::get('/book-with-amount', [LibraryController::class, 'booksWithAmount']);
             Route::get('/books-created-by', [LibraryController::class, 'booksCreatedBy']);
             Route::get('/{bookId}', [LibraryController::class, 'bookById']);
+            Route::get('/borrow/user', [LibraryController::class, 'borrowBookByUser']);
+            Route::get('/borrow/approve', [LibraryController::class, 'toApproveBorrows'])
+                ->middleware('hasPermission:borrow');
 
             Route::post('add', [LibraryController::class, 'addBook']);
+            Route::post('borrow', [LibraryController::class, 'borrow']);
 
             Route::put('/{bookId}', [LibraryController::class, 'editBookById']);
+            Route::put('/borrow/approve', [LibraryController::class, 'setApprove'])
+                ->middleware('hasPermission:borrow');
 
             Route::delete('/{bookId}', [LibraryController::class, 'removeBook']);
         });

@@ -40,4 +40,12 @@ class ViewBorrow
     {
         return BorrowedBook::find($borrowId);
     }
+
+    /**
+     * @return \Illuminate\Support\Collection|array<BorrowedBook>
+     */
+    public function toApprove(): Collection|array
+    {
+        return BorrowedBook::where('finished', false)->where('is_approved', null)->get();
+    }
 }

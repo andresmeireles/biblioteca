@@ -5,3 +5,7 @@ export interface Register {
     password: string;
     password_confirmation: string;
 }
+
+export interface HasPermission {
+    hasPermissionn: boolean;
+}

@@ -19,6 +19,16 @@ class BorrowedBook extends Model
         'finished'
     ];
 
+    public function getBookIdAttribute(int $value): Book
+    {
+        return Book::findOrFail($value);
+    }
+
+    public function getUserIdAttribute(int $value): User
+    {
+        return User::findOrFail($value);
+    }
+
     public function isLate(): bool
     {
         $returnDate = ($this->return_date ?? now())->getTimestamp();

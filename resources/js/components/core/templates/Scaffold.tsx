@@ -21,6 +21,7 @@ import Copyright from "../components/Copyright";
 import AuthContext from "../contexts/AuthProvider/AuthContext";
 import { AuthActionType } from "../contexts/AuthProvider/AuthActions";
 import Menus from "./Menus";
+import SecondaryMenu from "./SecondaryMenus";
 
 const drawerWidth = 240;
 
@@ -156,7 +157,9 @@ const DashboardContent = function (props: {
                         <Menus />
                     </List>
                     <Divider />
-                    {/* <List>{secondaryListItems}</List> */}
+                    <List>
+                        <SecondaryMenu />
+                    </List>
                 </Drawer>
                 {/* END DRAWLER */}
                 <Box
@@ -182,11 +185,11 @@ const DashboardContent = function (props: {
     );
 };
 
-const Dashboard = function (props: {
+const Scaffold = function (props: {
     children: ReactNode | ReactElement | JSX.Element;
 }): ReactElement {
     const { children } = props;
     return <DashboardContent>{children}</DashboardContent>;
 };
 
-export default Dashboard;
+export default Scaffold;

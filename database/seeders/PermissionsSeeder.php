@@ -27,7 +27,7 @@ class PermissionsSeeder extends Seeder
         $librarian = Role::create(['name' => 'librarian']);
 
         $adminRole->givePermissionTo(['admin', 'edit', 'create', 'remove', 'view', 'borrow']);
-        $librarian->getIncrementing(['edit', 'create', 'remove', 'view', 'borrow']);
+        $librarian->givePermissionTo(['edit', 'create', 'remove', 'view', 'borrow']);
         $userWithPermissionRole->givePermissionTo(['edit', 'create', 'remove', 'view']);
     }
 }

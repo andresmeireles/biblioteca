@@ -17,5 +17,7 @@ class AdminPermissionSeeder extends Seeder
         /** @var User $admin */
         $admin = User::where('username', 'admin')->first();
         $admin->assignRole('administrator');
+        $librarian = User::where('username', 'bibliotecario')->first();
+        $librarian->assignRole('librarian');
     }
 }
