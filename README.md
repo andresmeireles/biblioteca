@@ -1,8 +1,11 @@
 # biblioteca
+Projeto de gerenciamento de uma biblioteca.
 
 ## descrição técnica
 Projeto feito com [laravel][laravel-site] e [reactjs][reactjs-site], duas ferramentas extremamente populates, ativamente atualizadas, utilizadas por grandes e pequenos projetos ao redor do mundo, com uma vastidão de ferramentas de desenvolvimento, debug e auxílios na internet, além de serem ferramentas excelentes.
+
 O projeto foi concebido para ser uma _api_ que é consumida por um _front-end_. Acredito que essa é a melhor forma de construir aplicações porque cria uma camada de separação de responsabilidades entro o _front-end_ e _back-end_, também aumenta a capacidade de uso da aplicação já que uma _api_ pode ser consumida por qualquer _front-end_, aplicativo ou mesmo um aplicativo de _desktop_ que consiga fazer requisições _http_.
+
 Essa abordagem também busca garantir a descartabilidade dos componentes, de forma que, se uma organização decidir que o _front-end_ precisa ser refeito, seja com as mesmas tecnologias ou outras, a _front-end_ pode ser tranquilamente descartável e implantado seja no mesmo repositório ou em outro. O mesmo funciona de forma contrária, o _front-end_ pode ser facilmente abstraído da aplicação e consumir outro _back-end_ compatível.
 
 ## setup
