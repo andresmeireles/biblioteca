@@ -24,9 +24,13 @@ Esse comando irá baixar os containers necessários e irá levanta-los. Após te
 
 `docker exec dt-php composer install`
 
+É comum que o `docker`mude as permissões dos arquivos na hora da instação, se verificar um erro de permissão execute o comando:
+
+`sudo chmod 755 storage/ storage/*`
+
 É necessário criar uma chave para a aplicação laravel para que tudo funcione normalmente. Para cria-la utilize o comando:
 
-`docker exec dt-php composer `
+`docker exec dt-php artisan generate:key`
 
 Esse comando irá instalar os pacotes do composer. Para criar as tabelas do banco de dados execute o comando:
 
