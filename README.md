@@ -24,10 +24,6 @@ Esse comando irá baixar os containers necessários e irá levanta-los. Após te
 
 `docker exec dt-php composer install`
 
-É comum que o `docker`mude as permissões dos arquivos na hora da instação, se verificar um erro de permissão execute o comando:
-
-`sudo chmod 755 storage/ storage/*`
-
 É necessário criar uma chave para a aplicação laravel para que tudo funcione normalmente. Para cria-la utilize o comando:
 
 `docker exec dt-php artisan generate:key`
@@ -49,6 +45,10 @@ Feito isso a aplicação já está pronta para roda na porta 1700 do seu localho
 `localhost:1700`
 
 Feito isso, a aplicação já pode ser utilizada normalmente.
+
+É comum que o `docker`mude as permissões dos arquivos na hora da instação, se verificar um erro de permissão execute o comando:
+
+`sudo chmod 777 -R .`
 
 ### instalação sem o docker.
 É necessário conter todos as dependências necessárias para fazer o laravel funcionar localmente, além de ter o [composer][composer-site] instalado localmente em sua maquina para instalar as dependências do projeto. Certificando-se que as dependências estão corretamente instaladas, você pode instalar o [nginx][nginx-site] e configurar o laravel nele segundo [esse tutorial][tutorial-site], ou [apache][apache-site] seguindo [esse tutorial][apache-tutorial-site], observando que ao invés de criar um novo projeto laravel você irá mover esse projeto para a pasta do nginx ou apache.
