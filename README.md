@@ -12,7 +12,7 @@ Essa abordagem também busca garantir a descartabilidade dos componentes, de for
 Para fins de praticidade o arquivo `.env` está incluso nos arquivos do projeto, em uma aplicação comercial, esse aquivo *NÃO* deve estar disponibilizado no versionamento, por conter informações sensíveis. Neste projeto, contudo, foram tomadas precauções para que nenhum tipo de dado sensível estivesse contido no aquivo.
 
 ## setup
-Para melhor utilizar esse projeto é necessário ter o [docker][docker-site] e [docker-compose][docker-compose-site] instalados, artigos para a instalação de ambos podem ser encontrados [aqui][instalacao-docker] e [aqui][instalacao-docker-compose]. Os assets já estão compilados, contudo se você quiser compilar-los precisa ter instalado o _node_ com versão 16.13 ou superior com _npm_ habilitado.
+Para melhor utilizar esse projeto é necessário ter o [docker][docker-site] e o [docker-compose][docker-compose-site] instalados, artigos para a instalação de ambos podem ser encontrados [aqui][instalacao-docker] e [aqui][instalacao-docker-compose]. Os assets já estão compilados, contudo se você quiser compilar-los precisa ter instalado o _node_ com versão 16.13 ou superior com _npm_ habilitado.
 Caso não queira utilizar o docker é necessário ter o [php][php-site] instalado em sua máquina com as [extensões necessárias][laravel-requirements-site] para rodar o laravel e o suporte para `sqlite` para os testes unitários, pode ser usado o próprio servidor do php ou servidores como nginx e apache.
 
 ### com docker
