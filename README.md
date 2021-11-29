@@ -82,7 +82,7 @@ Caso esteja utilizando _nginx_ ou _apache_ esse passo é desnecessário.
 Feito isso, a aplicação já pode ser utilizada normalmente na porta indicada no terminal.
 
 ### informações complementares
-A aplicação tem dois usuários padrão, que são _bibliotecario_ e _administrador_, o que diferencia ambos é que o administrador pode realizar todas as tarefas no sistema, o bibliotecário tem várias permissões mas não todas, outros usuários podem ser adicionados pelo _front-end_ da aplicação.
+A aplicação tem dois usuários padrão, que são _bibliotecario_ e _administrador_, o que diferencia ambos é que o administrador pode realizar todas as tarefas no sistema, o bibliotecário tem várias permissões, mas não todas. Outros usuários podem ser adicionados pelo _front-end_ da aplicação.
 
 ##### informações de login
 ```
