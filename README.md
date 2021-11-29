@@ -9,7 +9,7 @@ O projeto foi concebido para ser uma _api_ que é consumida por um _front-end_. 
 Essa abordagem também busca garantir a descartabilidade dos componentes, de forma que, se uma organização decidir que o _front-end_ precisa ser refeito, seja com as mesmas tecnologias ou outras, a _front-end_ pode ser tranquilamente descartado e outro implantado, seja no mesmo repositório ou em outro. O mesmo funciona de forma contrária, o _front-end_ pode ser facilmente abstraído da aplicação e consumir outro _back-end_ compatível.
 
 ### observação
-Para fins de praticidade o arquivo `.env` está incluso nos arquivos do projeto, em uma aplicação comercial, esse aquivo *NÃO* deve estár disponibilizado no versionamento, por conter informações sensíveis. Neste projeto, contudo, foram tomadas precauções para que nenhum tipo de dado sensível estivesse contido no aquivo.
+Para fins de praticidade o arquivo `.env` está incluso nos arquivos do projeto, em uma aplicação comercial, esse aquivo *NÃO* deve estar disponibilizado no versionamento, por conter informações sensíveis. Neste projeto, contudo, foram tomadas precauções para que nenhum tipo de dado sensível estivesse contido no aquivo.
 
 ## setup
 Para melhor utilizar esse projeto é necessário ter o [docker][docker-site] e [docker-compose][docker-compose-site] instalados, artigos para a instalação de ambos podem ser encontrados [aqui][instalacao-docker] e [aqui][instalacao-docker-compose]. Os assets já estão compilados, contudo se você quiser compilar-los precisa ter instalado o _node_ com versão 16.13 ou superior com _npm_ habilitado.
