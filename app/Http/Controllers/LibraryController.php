@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ValidationException;
 use App\Responses\ApiResponse;
 use App\Responses\ConsultResponse;
 use App\Services\Library\AddBook;
 use App\Services\Library\Borrow\BorrowBook;
+use App\Services\Library\Borrow\ReturnBook;
 use App\Services\Library\Borrow\ViewBorrow;
 use App\Services\Library\DeleteBook;
 use App\Services\Library\EditBook;
 use App\Services\Library\ViewBook;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LibraryController extends Controller
 {
@@ -21,6 +24,16 @@ class LibraryController extends Controller
     {
         try {
             $bookData = $request->request->all();
+            $errors = Validator::make($bookData, [
+                'name' => ['required'],
+                'author' => ['required'],
+                'code' => ['required'],
+                'genre' => ['required'],
+                'publication_year' => ['required'],
+            ])->errors();
+            if (count($errors) > 0) {
+                throw new ValidationException($errors->first());
+            }
             $book = $addBook->add($bookData, (int) $bookData['amount'], $request->user());
             $responseBody = [
                 'book' => $book,
@@ -28,6 +41,8 @@ class LibraryController extends Controller
             ];
             $response = new ConsultResponse($responseBody, true);
             return response()->json($response->response());
+        } catch (ValidationException $err) {
+            return response()->json(ConsultResponse::fail($err->getMessage())->response());
         } catch (\Exception $err) {
             return response()->json((new ApiResponse($err->getMessage(), false))->response());
         }
@@ -38,6 +53,16 @@ class LibraryController extends Controller
         try {
             $user = $request->user();
             $infoEdit = $request->request->all();
+            $errors = Validator::make($infoEdit, [
+                'name' => ['required'],
+                'author' => ['required'],
+                'code' => ['required'],
+                'genre' => ['required'],
+                'publicationYear' => ['required'],
+            ])->errors();
+            if (count($errors) > 0) {
+                throw new ValidationException($errors->first());
+            }
             $edit = $edit->editById($bookId, $infoEdit, $user);
             $response = new ConsultResponse($edit, true);
             return response()->json($response->response());
@@ -62,7 +87,7 @@ class LibraryController extends Controller
     {
         try {
             $user = $request->user();
-            $books = $viewBook->booksCreatedBy($user->id);
+            $books = $viewBook->booksCreatedBy($user);
             $result = new ConsultResponse($books, true);
 
             return response()->json($result->response());
@@ -119,10 +144,10 @@ class LibraryController extends Controller
         }
     }
 
-    public function toApproveBorrows(ViewBorrow $view): JsonResponse
+    public function nonFinishedBorrows(ViewBorrow $view): JsonResponse
     {
         try {
-            $borrows = $view->toApprove();
+            $borrows = $view->nonFinished();
             return response()->json((new ConsultResponse($borrows))->response());
         } catch (\Exception $err) {
             return response()->json(ConsultResponse::fail($err->getMessage())->response());
@@ -151,6 +176,23 @@ class LibraryController extends Controller
             $borrowedBooks = $viewBorrow->byUser($user->id);
 
             return response()->json((new ConsultResponse($borrowedBooks))->response());
+        } catch (\Exception $err) {
+            return response()->json(ConsultResponse::fail($err->getMessage())->response());
+        }
+    }
+
+    public function returnBorrow(Request $request, ReturnBook $returnBook): JsonResponse
+    {
+        try {
+            $returnDate = (string) $request->request->get('returnDate');
+            $isLost = $request->request->getBoolean('isLost');
+            $borrowId = $request->request->getInt('borrowId');
+            $user = $request->user();
+            $rDate = new \DateTime($returnDate);
+            $return = $returnBook->return($user, $borrowId, $rDate, $isLost);
+            $response = new ConsultResponse($return);
+
+            return response()->json($response->response());
         } catch (\Exception $err) {
             return response()->json(ConsultResponse::fail($err->getMessage())->response());
         }

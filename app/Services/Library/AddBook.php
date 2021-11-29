@@ -10,7 +10,7 @@ use App\Models\User;
 
 class AddBook
 {
-    public function add(array $addBook, int $bookAmount = 1, User $user): Book
+    public function add(array $addBook, int $bookAmount, User $user): Book
     {
         if (Book::where('code', $addBook['code'])->first() !== null) {
             throw new \InvalidArgumentException('livro já cadastrado com esse código');
@@ -18,6 +18,9 @@ class AddBook
         $addBook['created_by'] = $user->id;
         $book = Book::create($addBook);
         $amount = abs($bookAmount);
+        if ($amount === 0) {
+            throw new \InvalidArgumentException('quantidade do livro não pode ser zero.');
+        }
         BookAmount::create([
             'book_id' => $book->id,
             'amount' => $amount,

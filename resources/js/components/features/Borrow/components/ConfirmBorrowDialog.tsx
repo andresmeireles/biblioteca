@@ -33,7 +33,7 @@ const ConfirmBorrowDialog = function (props: {
         const borrow = await executeBorrow(bookId, date);
         if (borrow.success) {
             toast.success(
-                "emprestimo efeitudo com sucesso, aguarde a aprovação."
+                "emprestimo efeituado com sucesso, aguarde a aprovação."
             );
             handleClose();
             navigate("/");

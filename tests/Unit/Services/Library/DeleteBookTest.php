@@ -47,7 +47,7 @@ class DeleteBookTest extends TestCase
             'genre' => 'horror',
             'created_by' => 1,
         ];
-        $book = $this->adder->add($data);
+        $book = $this->adder->add($data, 1, $this->adminUser);
 
         $this->delete->deleteById($book->id, $this->adminUser);
 
@@ -64,7 +64,7 @@ class DeleteBookTest extends TestCase
             'genre' => 'horror',
             'created_by' => $this->nonAdminUser->id,
         ];
-        $book = $this->adder->add($data);
+        $book = $this->adder->add($data, 1, $this->nonAdminUser);
 
         $this->delete->deleteById($book->id, $this->nonAdminUser);
 
@@ -83,7 +83,7 @@ class DeleteBookTest extends TestCase
             'genre' => 'horror',
             'created_by' => 1,
         ];
-        $book = $this->adder->add($data);
+        $book = $this->adder->add($data, 1, $this->adminUser);
 
         $this->delete->deleteById($book->id, $this->nonAdminUser);
 
@@ -102,7 +102,7 @@ class DeleteBookTest extends TestCase
             'genre' => 'horror',
             'created_by' => $this->thirdUser->id,
         ];
-        $book = $this->adder->add($data);
+        $book = $this->adder->add($data, 1, $this->thirdUser);
 
         $this->delete->deleteById($book->id, $this->nonAdminUser);
 
@@ -119,7 +119,7 @@ class DeleteBookTest extends TestCase
             'genre' => 'horror',
             'created_by' => $this->thirdUser->id,
         ];
-        $book = $this->adder->add($data);
+        $book = $this->adder->add($data, 1, $this->nonAdminUser);
         $data2 = [
             'name' => 'comece pelo por que',
             'author' => 'simon sinek',
@@ -128,7 +128,7 @@ class DeleteBookTest extends TestCase
             'genre' => 'auto ajuda',
             'created_by' => $this->nonAdminUser->id,
         ];
-        $book2 = $this->adder->add($data2);
+        $book2 = $this->adder->add($data2, 1, $this->thirdUser);
 
         $this->delete->deleteById($book->id, $this->adminUser);
         $this->delete->deleteById($book2->id, $this->adminUser);

@@ -4,7 +4,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Box } from "@mui/system";
 import { toast } from "react-toastify";
 import { sendForgotPasswordLink } from "./Action";
-import CleanScaffold from "../../core/templates/NonDashboardScaffol";
+import CleanScaffold from "../../core/templates/CleanScaffold";
 
 const ForgotPassword = function (): ReactElement {
     const [email, setEmail] = useState("");

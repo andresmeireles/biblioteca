@@ -2,7 +2,7 @@ import { Grid, Link } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { ReactElement } from "react";
 import { useNavigate } from "react-router";
-import CleanScaffold from "../../core/templates/NonDashboardScaffol";
+import CleanScaffold from "../../core/templates/CleanScaffold";
 
 const R404 = function (): ReactElement {
     const navigate = useNavigate();

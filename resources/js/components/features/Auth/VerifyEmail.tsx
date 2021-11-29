@@ -3,7 +3,7 @@ import React, { ReactElement, useContext } from "react";
 import { Navigate } from "react-router";
 import { toast } from "react-toastify";
 import AuthContext from "../../core/contexts/AuthProvider/AuthContext";
-import CleanScaffold from "../../core/templates/NonDashboardScaffol";
+import CleanScaffold from "../../core/templates/CleanScaffold";
 import { sendConfirmEmailByUsername } from "./Action";
 
 const View = function (props: { userName: string }) {

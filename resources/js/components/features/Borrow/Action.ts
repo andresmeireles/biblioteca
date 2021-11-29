@@ -27,7 +27,7 @@ export async function getNonFinishedBorrows(): Promise<
     ApiResponse<HasPermission | BorrowedBook[] | string>
 > {
     return getWithToken<HasPermission | BorrowedBook[] | string>(
-        "/api/book/borrow/approve"
+        "/api/book/borrow/non-finished"
     );
 }
 
@@ -36,4 +36,12 @@ export async function setBorrowPermission(
     status: boolean
 ): Promise<ApiResponse<string | BorrowedBook>> {
     return putWithToken("/api/book/borrow/approve", { borrowId, status });
+}
+
+export async function returnBorrowBook(props: {
+    returnDate: Date;
+    isLost: boolean;
+    borrowId: number;
+}): Promise<ApiResponse<string>> {
+    return postWithToken<string>("/api/book/borrow/return", props);
 }

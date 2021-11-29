@@ -27,34 +27,36 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/confirmEmail', [UserController::class, 'sendConfirmEmail']);
 Route::post('/changeForgottenPassword', [UserController::class, 'changeForgottenPassword']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::middleware('verifyEmailApi')->group(function () {
-        Route::prefix('user')->group(function () {
-            Route::get('/', function (Request $request) {
-                $user = $request->user();
-                $response = new ConsultResponse($user->id, true);
-                return response()->json($response->response());
-            });
-            Route::post('register', [UserController::class, 'register']);
-        });
+Route::get('/user/blocked', [AuthController::class, 'userIsBlocked'])->middleware('auth:sanctum');
 
-        Route::prefix('book')->group(function () {
-            Route::get('/', [LibraryController::class, 'books']);
-            Route::get('/book-with-amount', [LibraryController::class, 'booksWithAmount']);
-            Route::get('/books-created-by', [LibraryController::class, 'booksCreatedBy']);
-            Route::get('/{bookId}', [LibraryController::class, 'bookById']);
-            Route::get('/borrow/user', [LibraryController::class, 'borrowBookByUser']);
-            Route::get('/borrow/approve', [LibraryController::class, 'toApproveBorrows'])
+Route::middleware([ 'auth:sanctum', 'userIsBlock', 'verifyEmailApi' ])->group(function () {
+    Route::prefix('user')->group(function () {
+        Route::get('/', function (Request $request) {
+            $user = $request->user();
+            $response = new ConsultResponse($user->id, true);
+            return response()->json($response->response());
+        })->withoutMiddleware('userIsBlock');
+        Route::post('register', [UserController::class, 'register']);
+    });
+
+    Route::prefix('book')->group(function () {
+        Route::get('/', [LibraryController::class, 'books']);
+        Route::get('/book-with-amount', [LibraryController::class, 'booksWithAmount']);
+        Route::get('/books-created-by', [LibraryController::class, 'booksCreatedBy']);
+        Route::get('/{bookId}', [LibraryController::class, 'bookById']);
+        Route::get('/borrow/user', [LibraryController::class, 'borrowBookByUser']);
+        Route::get('/borrow/non-finished', [LibraryController::class, 'nonFinishedBorrows'])
                 ->middleware('hasPermission:borrow');
 
-            Route::post('add', [LibraryController::class, 'addBook']);
-            Route::post('borrow', [LibraryController::class, 'borrow']);
-
-            Route::put('/{bookId}', [LibraryController::class, 'editBookById']);
-            Route::put('/borrow/approve', [LibraryController::class, 'setApprove'])
+        Route::post('add', [LibraryController::class, 'addBook']);
+        Route::post('borrow', [LibraryController::class, 'borrow']);
+        Route::post('borrow/return', [LibraryController::class, 'returnBorrow'])
                 ->middleware('hasPermission:borrow');
 
-            Route::delete('/{bookId}', [LibraryController::class, 'removeBook']);
-        });
+        Route::put('/{bookId}', [LibraryController::class, 'editBookById']);
+        Route::put('/borrow/approve', [LibraryController::class, 'setApprove'])
+                ->middleware('hasPermission:borrow');
+
+        Route::delete('/{bookId}', [LibraryController::class, 'removeBook']);
     });
 });

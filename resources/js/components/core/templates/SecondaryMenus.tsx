@@ -1,4 +1,4 @@
-import { Assignment } from "@mui/icons-material";
+import { Assignment, Backpack } from "@mui/icons-material";
 import {
     ListItem,
     ListItemIcon,
@@ -18,18 +18,12 @@ const SecondaryMenu = function (): ReactElement {
                 </ListItemIcon>
                 <ListItemText primary="Aprovar emprestimos" />
             </ListItem>
-            {/* <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Last quarter" />
-        </ListItem>
-        <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Year-end sale" />
-        </ListItem> */}
+            <ListItem button component={Link} to="/return-borrow">
+                <ListItemIcon>
+                    <Backpack />
+                </ListItemIcon>
+                <ListItemText primary="Devolução" />
+            </ListItem>
         </div>
     );
 };

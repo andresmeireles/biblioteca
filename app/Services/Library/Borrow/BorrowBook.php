@@ -18,7 +18,9 @@ class BorrowBook
     public function borrow(int $bookId, User $user, \DateTime $pickUpDate, \DateTime $expectReturnDate): BorrowedBook
     {
         if (!$this->userCanBorrow($user)) {
-            throw new UserCannotBorrowException('usuário não pode pedir livros emprestados até uma data');
+            $canBorrowAt = CanBorrowBook::where('user_id', $user->id)->first()->can_borrow_at;
+            $data = (new \DateTime($canBorrowAt));
+            throw new UserCannotBorrowException(sprintf('usuário não pode pedir livros emprestados até uma data %s', $data->format('d/m/Y')));
         }
         if (!$this->bookHasStore($bookId)) {
             throw new UserCannotBorrowException('livro não pode ser emprestado porque não está disponível em estoque');
@@ -40,6 +42,9 @@ class BorrowBook
     public function changeApproveStatus(User $user, int $borrowId, bool $isAprove): BorrowedBook
     {
         $borrow = BorrowedBook::findOrFail($borrowId);
+        if ($borrow->is_approved !== null) {
+            throw new \LogicException('emprestimo já contem um status e não pode ser alterado');
+        }
         $this->hasBorrowPermissionOrFail($user);
         $borrow->is_approved = $isAprove;
         $borrow->finished = !$isAprove;

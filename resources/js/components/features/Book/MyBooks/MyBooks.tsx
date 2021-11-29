@@ -1,15 +1,18 @@
 import { Card, CardContent, CardHeader } from "@mui/material";
 import { nanoid } from "nanoid";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getUserBooks } from "../../../core/api/Library/Book";
+import AuthContext from "../../../core/contexts/AuthProvider/AuthContext";
 import { BookWithAmount } from "../../../core/interfaces/Library";
 import Scaffold from "../../../core/templates/Scaffold";
 import ViewItem from "../components/ViewItem";
 
 const BookList = function (props: { books: BookWithAmount[] }) {
     const { books } = props;
-    const { name } = books[0].book_id;
+    const {
+        state: { name },
+    } = useContext(AuthContext);
 
     return (
         <Card>

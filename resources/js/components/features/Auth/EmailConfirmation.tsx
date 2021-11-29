@@ -16,6 +16,7 @@ const EmailConfirmation = function (): ReactElement {
             if (verifyUser.success) {
                 const user = verifyUser.message as ApiAuthUser;
                 const auth = {
+                    name: user.user.name,
                     userName: user.user.username,
                     apiToken: user.token,
                     isAuthorized: true,

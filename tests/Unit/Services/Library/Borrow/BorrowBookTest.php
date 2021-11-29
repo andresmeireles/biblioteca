@@ -67,7 +67,10 @@ class BorrowBookTest extends TestCase
     {
         $this->expectException(UserCannotBorrowException::class);
         $this->expectExceptionMessage('livro não pode ser emprestado porque não está disponível em estoque');
-        $book = $this->addBook(0);
+        $book = $this->addBook(1);
+        $bookAmount = BookAmount::where('book_id', 1)->first();
+        $bookAmount->available_amount = 0;
+        $bookAmount->update();
         $this->borrow->borrow($book->id, $this->user, new \DateTime(), (new \DateTime())->add(new \DateInterval('P2D')));
 
         $this->assertEquals(1, BorrowedBook::all()->count());
@@ -108,8 +111,20 @@ class BorrowBookTest extends TestCase
     {
         $book = $this->addBook();
         $borrow = $this->borrow->borrow($book->id, $this->user, new \DateTime(), (new \DateTime())->add(new \DateInterval('P2D')));
-        $this->borrow->changeApproveStatus($this->librarian->id, $borrow->id, true);
+        $this->borrow->changeApproveStatus($this->librarian, $borrow->id, true);
 
+        $this->assertEquals(true, BorrowedBook::first()->is_approved);
+        $this->assertEquals(false, (bool) BorrowedBook::first()->finished);
+    }
+
+    public function testValidateBorrowAgain(): void
+    {
+        $this->expectException(\LogicException::class);
+        $book = $this->addBook();
+        $borrow = $this->borrow->borrow($book->id, $this->user, new \DateTime(), (new \DateTime())->add(new \DateInterval('P2D')));
+        $this->borrow->changeApproveStatus($this->librarian, $borrow->id, true);
+        $this->borrow->changeApproveStatus($this->librarian, $borrow->id, true);
+        
         $this->assertEquals(true, BorrowedBook::first()->is_approved);
         $this->assertEquals(false, (bool) BorrowedBook::first()->finished);
     }
@@ -118,7 +133,7 @@ class BorrowBookTest extends TestCase
     {
         $book = $this->addBook();
         $borrow = $this->borrow->borrow($book->id, $this->user, new \DateTime(), (new \DateTime())->add(new \DateInterval('P2D')));
-        $this->borrow->changeApproveStatus($this->librarian->id, $borrow->id, false);
+        $this->borrow->changeApproveStatus($this->librarian, $borrow->id, false);
 
         $this->assertEquals(false, (bool) BorrowedBook::first()->is_approved);
         $this->assertEquals(true, BorrowedBook::first()->finished);
@@ -131,7 +146,7 @@ class BorrowBookTest extends TestCase
 
         $book = $this->addBook();
         $borrow = $this->borrow->borrow($book->id, $this->user, new \DateTime(), (new \DateTime())->add(new \DateInterval('P2D')));
-        $this->borrow->changeApproveStatus($this->user->id, $borrow->id, true);
+        $this->borrow->changeApproveStatus($this->user, $borrow->id, true);
 
         $this->assertEquals(true, BorrowedBook::first()->is_approved);
     }
@@ -149,7 +164,7 @@ class BorrowBookTest extends TestCase
     {
         $book = $this->addBook();
         $borrow = $this->borrow->borrow($book->id, $this->user, new \DateTime(), (new \DateTime())->add(new \DateInterval('P2D')));
-        $this->borrow->changeApproveStatus($this->librarian->id, $borrow->id, true);
+        $this->borrow->changeApproveStatus($this->librarian, $borrow->id, true);
                
         $this->assertEquals(0, BookAmount::where('book_id', (int) $book->id)->first()->available_amount);
         $this->assertEquals(1, Book::count());
@@ -159,7 +174,7 @@ class BorrowBookTest extends TestCase
     {
         $book = $this->addBook();
         $borrow = $this->borrow->borrow($book->id, $this->user, new \DateTime(), (new \DateTime())->add(new \DateInterval('P2D')));
-        $this->borrow->changeApproveStatus($this->librarian->id, $borrow->id, false);
+        $this->borrow->changeApproveStatus($this->librarian, $borrow->id, false);
                
         $this->assertEquals(1, BookAmount::where('book_id', (int) $book->id)->first()->available_amount);
         $this->assertEquals(1, Book::count());

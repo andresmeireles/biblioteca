@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Responses\ApiResponse;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,8 @@ class VerifyUserIsBlock
     {
         $user = $request->user();
         if ($user->isBlocked()) {
-            return 'usuario bloqueado';
+            $blockResponse = new ApiResponse('usuario bloqueado', false);
+            return response()->json($blockResponse->response());
         }
         return $next($request);
     }

@@ -15,7 +15,7 @@ trait LibraryPermissionTrait
         if ($user->hasPermissionTo('admin')) {
             return true;
         }
-        $bookWasCreatedBy = (int) $book->created_by;
+        $bookWasCreatedBy = $book->created_by->id;
 
         return $bookWasCreatedBy === $user->id;
     }

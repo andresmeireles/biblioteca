@@ -1,4 +1,4 @@
-import { ApiAuthUser, ApiUser } from "../../interfaces/ApiUser";
+import { ApiUser } from "../../interfaces/ApiUser";
 import { AuthActions, AuthActionType } from "./AuthActions";
 import { initAuthState } from "./AuthContext";
 import { AuthState } from "./AuthState";
@@ -11,6 +11,7 @@ const save = function (state: AuthState): AuthState {
 
 const email = function (user: ApiUser): AuthState {
     const auth = {
+        name: user.name,
         userName: user.username,
         isAuthorized: false,
         apiToken: "",

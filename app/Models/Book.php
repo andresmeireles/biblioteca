@@ -51,9 +51,9 @@ class Book extends Model
         return $this->hasOne(BookAmount::class, 'book_id', 'id');
     }
 
-    public function getCreatedByAttribute(string $value): string
+    public function getCreatedByAttribute(string $value): User
     {
         $user = User::where('id', (int) $value)->first();
-        return $user->name;
+        return $user;
     }
 }

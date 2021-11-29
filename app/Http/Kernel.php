@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\HasPermission;
 use App\Http\Middleware\MustVerifyEmailApi;
+use App\Http\Middleware\VerifyUserIsBlock;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'verifyEmailApi' => MustVerifyEmailApi::class,
         'hasPermission' => HasPermission::class,
+        'userIsBlock' => VerifyUserIsBlock::class,
     ];
 }

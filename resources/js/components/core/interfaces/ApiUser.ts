@@ -13,3 +13,15 @@ export interface UserVerified {
     verified: boolean;
     user: ApiUser;
 }
+
+export interface BlockUser {
+    isBlocked: boolean;
+    until: string | null;
+}
+
+export function nonBlockUser(): BlockUser {
+    return {
+        isBlocked: false,
+        until: null,
+    };
+}

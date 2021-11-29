@@ -12,11 +12,12 @@ const findState = (): AuthState => {
     if (auth === null) {
         return initAuthState;
     }
-    const { userName, apiToken, isAuthorized, emailVerify } = JSON.parse(
+    const { name, userName, apiToken, isAuthorized, emailVerify } = JSON.parse(
         auth
     ) as AuthState;
 
     return {
+        name,
         userName,
         isAuthorized: isAuthorized as unknown as boolean,
         apiToken,

@@ -52,6 +52,15 @@ export async function getWithToken<T>(uri: string): Promise<ApiResponse<T>> {
     return response.data;
 }
 
+export async function getWithTokenWithType<T>(uri: string): Promise<T> {
+    const response = await getAxios().get<T>(uri, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+    return response.data;
+}
+
 export async function deleteWithToken<T>(uri: string): Promise<ApiResponse<T>> {
     const response = await getAxios().delete<ApiResponse<T>>(uri, {
         headers: {

@@ -16,7 +16,7 @@ export interface Book {
     publication_year: number;
     code: string;
     genre: string;
-    created_by: number;
+    created_by: ApiUser;
 }
 
 export function emptyBook() {
@@ -48,6 +48,6 @@ export interface BorrowedBook {
     pick_up_date: string;
     expected_return_date: string;
     return_date: string | null;
-    is_approve: boolean | null;
-    finished: boolean;
+    is_approved: boolean | number | null;
+    finished: boolean | number;
 }

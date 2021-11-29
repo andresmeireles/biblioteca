@@ -30,6 +30,7 @@ export function saveCredentials(
     context.dispatch({
         type: AuthActionType.save,
         payload: {
+            name: credentials.user.name,
             userName: credentials.user.username,
             apiToken: credentials.token,
             isAuthorized: true,

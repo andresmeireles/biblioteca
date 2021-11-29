@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Library\Borrow;
 
+use App\Models\BookAmount;
 use App\Models\BorrowedBook;
 use App\Models\CanBorrowBook;
 use App\Models\User;
@@ -19,18 +20,18 @@ class ReturnBook
     ) {
     }
 
-    public function return(int $librarianId, int $borrowId, ?\DateTime $returnDate = null, bool $isLost = false): BorrowedBook
+    public function return(User $librarian, int $borrowId, ?\DateTime $returnDate = null, bool $isLost = false): BorrowedBook
     {
-        $user = User::findOrFail($librarianId);
-        $this->hasBorrowPermissionOrFail($user);
+        $this->hasBorrowPermissionOrFail($librarian);
         $borrow = BorrowedBook::findOrFail($borrowId);
         $borrow->return_date = $returnDate ?? new \DateTime();
         $borrow->is_lost = $isLost;
         $borrow->finished = true;
-        $borrow->update();
         if ($this->hasPenalities($borrow)) {
             $this->addPenalities($borrow);
         }
+        $borrow->update();
+        BookAmount::plusOneAvailable($borrow->book_id->id);
 
         return $borrow;
     }
@@ -47,10 +48,9 @@ class ReturnBook
 
     private function addPenalities(BorrowedBook $borrowedBook): void
     {
-        $canBorrow = CanBorrowBook::where('user_id', $borrowedBook->user_id)->first();
+        $canBorrow = CanBorrowBook::where('user_id', $borrowedBook->user_id->id)->first();
         if ($borrowedBook->is_lost) {
-            dump($borrowedBook);
-            $this->blockUser->blockUntil((int) $borrowedBook->user_id, 7);
+            $this->blockUser->blockUntil((int) $borrowedBook->user_id->id, 7);
             $canBorrow->increaseCanBorrowDate(28);
             return;
         }

@@ -11,7 +11,7 @@ import { Box } from "@mui/system";
 import React, { FormEvent, ReactElement, useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import CleanScaffold from "../../core/templates/NonDashboardScaffol";
+import CleanScaffold from "../../core/templates/CleanScaffold";
 import { changeForgotPassword, verifyCanChange } from "./Action";
 import Copyright from "../../core/components/Copyright";
 

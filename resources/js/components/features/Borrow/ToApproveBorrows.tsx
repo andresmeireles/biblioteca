@@ -109,7 +109,8 @@ const ToApproveBorrows = function (): ReactElement {
                 setBorrows([]);
                 return;
             }
-            setBorrows(borrowList.message as BorrowedBook[]);
+            const bList = borrowList.message as BorrowedBook[];
+            setBorrows(bList.filter((b) => b.is_approved === null));
         };
 
         get();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlockUser;
 use App\Models\User;
 use App\Responses\ApiResponse;
 use App\Responses\ConsultResponse;
@@ -56,5 +57,19 @@ class AuthController extends Controller
         } catch (\Exception) {
             return response()->json(ConsultResponse::fail('')->response());
         }
+    }
+
+    public function userIsBlocked(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $blocked = $user->isBlocked();
+        $blockedResponse = [
+            'isBlocked' => $blocked,
+            'until' => null
+        ];
+        if ($blocked) {
+            $blockedResponse['until'] = BlockUser::where('user_id', $user->id)->first()->block_until_date;
+        }
+        return response()->json($blockedResponse);
     }
 }

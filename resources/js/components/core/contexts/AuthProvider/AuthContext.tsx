@@ -3,6 +3,7 @@ import { AuthActions } from "./AuthActions";
 import { AuthState } from "./AuthState";
 
 export const initAuthState = {
+    name: "",
     userName: "",
     isAuthorized: false,
     apiToken: "",

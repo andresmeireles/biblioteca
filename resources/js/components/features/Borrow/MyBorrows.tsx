@@ -1,4 +1,5 @@
 import { Grid, Card, CardContent, CardHeader } from "@mui/material";
+import { nanoid } from "nanoid";
 import React, { ReactElement, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import DateString from "../../core/components/DateString";
@@ -6,36 +7,43 @@ import { BorrowedBook } from "../../core/interfaces/Library";
 import Scaffold from "../../core/templates/Scaffold";
 import { getMyBorrowedBooks } from "./Action";
 
+const BorrowItem = function (props: { borrow: BorrowedBook }) {
+    const { borrow } = props;
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={3}>
+                {borrow.book_id.name}
+            </Grid>
+            <Grid item xs={2}>
+                <DateString date={borrow.pick_up_date} />
+            </Grid>
+            <Grid item xs={3}>
+                <DateString date={borrow.expected_return_date} />
+            </Grid>
+            <Grid item xs={2}>
+                {borrow.return_date === null ? (
+                    "ainda não entregue"
+                ) : (
+                    <DateString date={borrow.return_date} />
+                )}
+            </Grid>
+            <Grid item xs={1} textAlign="center">
+                {borrow.is_approved ? "sim" : "não"}
+            </Grid>
+            <Grid item xs={1} textAlign="center">
+                {borrow.finished ? "sim" : "não"}
+            </Grid>
+        </Grid>
+    );
+};
+
 const BorrowList = function (props: { borrows: BorrowedBook[] }) {
     const { borrows } = props;
 
     return (
         <>
             {borrows.map((borrow) => (
-                <Grid container spacing={2}>
-                    <Grid item xs={3}>
-                        {borrow.book_id.name}
-                    </Grid>
-                    <Grid item xs={2}>
-                        <DateString date={borrow.pick_up_date} />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <DateString date={borrow.expected_return_date} />
-                    </Grid>
-                    <Grid item xs={2}>
-                        {borrow.return_date === null ? (
-                            "ainda não entregue"
-                        ) : (
-                            <DateString date={borrow.return_date} />
-                        )}
-                    </Grid>
-                    <Grid item xs={1} textAlign="center">
-                        {borrow.is_approve ? "sim" : "não"}
-                    </Grid>
-                    <Grid item xs={1} textAlign="center">
-                        {borrow.finished ? "sim" : "não"}
-                    </Grid>
-                </Grid>
+                <BorrowItem borrow={borrow} key={nanoid()} />
             ))}
         </>
     );

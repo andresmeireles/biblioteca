@@ -1,14 +1,24 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router";
+import { userIsBlocked } from "../../api/Library/User";
 import { getWithToken } from "../../api/request";
 import { AuthActionType } from "../../contexts/AuthProvider/AuthActions";
 import AuthContext from "../../contexts/AuthProvider/AuthContext";
-import { ApiUser, UserVerified } from "../../interfaces/ApiUser";
+import {
+    ApiUser,
+    BlockUser as BlockUserInterface,
+    nonBlockUser,
+    UserVerified,
+} from "../../interfaces/ApiUser";
+import BlockUser from "../BlockUser";
 
 // verify is user is authorized here.
 // verify email.
 // do request to check user has valid token
 const AuthRoute = function (props: { element: JSX.Element }): ReactElement {
+    const [isBlocked, setIsBlocked] = useState<BlockUserInterface>(
+        nonBlockUser()
+    );
     const [hasAuth, setHasAuth] = useState<boolean>();
     const [emailVerified, setEmailVerified] = useState(true);
     const { element } = props;
@@ -17,6 +27,8 @@ const AuthRoute = function (props: { element: JSX.Element }): ReactElement {
     useEffect(() => {
         const get = async () => {
             try {
+                const checkBlockUser = await userIsBlocked();
+                setIsBlocked(checkBlockUser);
                 const user = await getWithToken<ApiUser | UserVerified>(
                     "/api/user"
                 );
@@ -38,6 +50,9 @@ const AuthRoute = function (props: { element: JSX.Element }): ReactElement {
         get();
     }, []);
 
+    if (isBlocked.isBlocked) {
+        return <BlockUser user={isBlocked} />;
+    }
     if (!emailVerified) {
         return <Navigate to="/verify-email" />;
     }

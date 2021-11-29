@@ -6,6 +6,7 @@ namespace App\Services\Library;
 
 use App\Models\Book;
 use App\Models\BookAmount;
+use App\Models\User;
 use Doctrine\DBAL\Query\QueryException as QueryQueryException;
 use Illuminate\Support\Collection;
 
@@ -40,9 +41,12 @@ class ViewBook
     /**
      * @return \Illuminate\Support\Collection|array<BookAmount>
      */
-    public function booksCreatedBy(int $userId): Collection|array
+    public function booksCreatedBy(User $user): Collection|array
     {
-        $books = Book::where('created_by', $userId)->get();
+        $books = Book::where('created_by', $user->id)->get();
+        if ($books === null) {
+            throw new \InvalidArgumentException('usuario não tem livros');
+        }
         $booksWithAmount = $books->map(fn (Book $book) => BookAmount::where('book_id', $book->id)->first());
 
         return $booksWithAmount;

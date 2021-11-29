@@ -27,7 +27,7 @@ const ViewItem = function (props: { book: BookWithAmount }) {
                 {book.book_id.genre}
             </Grid>
             <Grid item xs={2}>
-                {book.book_id.created_by}
+                {book.book_id.created_by.name}
             </Grid>
             <Grid item xs={1}>
                 <Tooltip title="editar">
