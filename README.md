@@ -4,19 +4,19 @@ Projeto de gerenciamento de uma biblioteca.
 ## descrição técnica
 Projeto feito com [laravel][laravel-site] e [reactjs][reactjs-site], duas ferramentas extremamente populares, ativamente atualizadas, utilizadas por grandes e pequenos projetos ao redor do mundo, com uma vastidão de ferramentas de desenvolvimento, debug e auxílios na internet, além de serem ferramentas excelentes.
 
-O projeto foi concebido para ser uma _api_ que é consumida por um _front-end_. Acredito que essa é a melhor forma de construir aplicações porque cria uma camada de separação de responsabilidades entre o _front-end_ e _back-end_, também aumenta a capacidade de uso da aplicação já que uma _api_ pode ser consumida por qualquer _front-end_, aplicativo _mobile_ ou mesmo um aplicativo de _desktop_ que consiga fazer requisições _http_.
+O projeto foi concebido para ser uma _api_ que é consumida por um _front-end_. Acredito, que essa é a melhor forma de construir aplicações porque cria uma camada de separação de responsabilidades entre o _front-end_ e _back-end_, também aumenta a capacidade de uso da aplicação já que uma _api_ pode ser consumida por qualquer _front-end_, aplicativo _mobile_ ou mesmo um aplicativo de _desktop_ que consiga fazer requisições _http_.
 
 Essa abordagem também busca garantir a descartabilidade dos componentes, de forma que, se uma organização decidir que o _front-end_ precisa ser refeito, seja com as mesmas tecnologias ou outras, a _front-end_ pode ser tranquilamente descartado e outro implantado, seja no mesmo repositório ou em outro. O mesmo funciona de forma contrária, o _front-end_ pode ser facilmente abstraído da aplicação e consumir outro _back-end_ compatível.
 
 ### observação
-Para fins de praticidade o arquivo `.env` está incluso nos arquivos do projeto, em uma aplicação comercial, esse aquivo *NÃO* deve estár disponibilizado no versionamento, por conter informações sensíveis, neste projeto contudo foram tomadas precauções para que nenhum tipo de dado sensível estivesse contido no aquivo.
+Para fins de praticidade o arquivo `.env` está incluso nos arquivos do projeto, em uma aplicação comercial, esse aquivo *NÃO* deve estár disponibilizado no versionamento, por conter informações sensíveis. Neste projeto, contudo, foram tomadas precauções para que nenhum tipo de dado sensível estivesse contido no aquivo.
 
 ## setup
 Para melhor utilizar esse projeto é necessário ter o [docker][docker-site] e [docker-compose][docker-compose-site] instalados, artigos para a instalação de ambos podem ser encontrados [aqui][instalacao-docker] e [aqui][instalacao-docker-compose]. Os assets já estão compilados, contudo se você quiser compilar-los precisa ter instalado o _node_ com versão 16.13 ou superior com _npm_ habilitado.
-Caso não queira utilizar o docker é necessário ter o [php][php-site] instalado em sua maquina com as [extensões necessárias][laravel-requirements-site] para rodar o laravel e suporte para `sqlite` para os testes unitários, pode ser usado o proprio servidor do php ou servidores como nginx e apache.
+Caso não queira utilizar o docker é necessário ter o [php][php-site] instalado em sua maquina com as [extensões necessárias][laravel-requirements-site] para rodar o laravel e o suporte para `sqlite` para os testes unitários, pode ser usado o proprio servidor do php ou servidores como nginx e apache.
 
 ### com docker
-Com o `docker-compose` instalado na sua maquina, na raiz do projeto rode o comando:
+Com o `docker-compose` instalado na sua máquina, na raiz do projeto rode o comando:
 
 `docker-compose up -d`
 
@@ -51,7 +51,7 @@ Feito isso, a aplicação já pode ser utilizada normalmente.
 `sudo chmod 777 -R .`
 
 ### instalação sem o docker.
-É necessário conter todas as dependências necessárias para fazer o laravel funcionar localmente, além de ter o [composer][composer-site] instalado localmente em sua maquina para instalar as dependências do projeto. Certificando-se que as dependências estão corretamente instaladas, você pode instalar o [nginx][nginx-site] e configurar o laravel nele segundo [esse tutorial][tutorial-site], ou [apache][apache-site] seguindo [esse tutorial][apache-tutorial-site], observando que ao invés de criar um novo projeto laravel você irá mover esse projeto para a pasta do nginx ou apache.
+É necessário conter todas as dependências necessárias para fazer o laravel funcionar localmente, além de ter o [composer][composer-site] instalado localmente em sua máquina para instalar as dependências do projeto. Certificando-se que as dependências estão corretamente instaladas, você pode instalar o [nginx][nginx-site] e configurar o laravel nele segundo [esse tutorial][tutorial-site], ou [apache][apache-site] seguindo [esse tutorial][apache-tutorial-site], observando que ao invés de criar um novo projeto laravel você irá mover esse projeto para a pasta do nginx ou apache.
 
 Também pode utilizar o servidor de testes do laravel.
 
@@ -82,7 +82,7 @@ Caso esteja utilizando _nginx_ ou _apache_ esse passo é desnecessário.
 Feito isso, a aplicação já pode ser utilizada normalmente na porta indicada no terminal.
 
 ### informações complementares
-A aplicação tem dois usuários padrões, que são _bibliotecario_ e _administrador_, o que diferencia ambos é que o administrador pode realizar todas as tarefas no sistema, o bibliotecário tem várias permissões mas não todas, outros usuários podem ser adicionados pelo _front-end_ da aplicação.
+A aplicação tem dois usuários padrão, que são _bibliotecario_ e _administrador_, o que diferencia ambos é que o administrador pode realizar todas as tarefas no sistema, o bibliotecário tem várias permissões mas não todas, outros usuários podem ser adicionados pelo _front-end_ da aplicação.
 
 ##### informações de login
 ```
@@ -102,7 +102,7 @@ Os testes da aplicação podem ser feitos de duas formas, usando o `docker` ou n
 `docker exec dt-php php artisan test`
 
 ### sem o docker
-É necessário tem extensões do `sqlite3` do _php_ para executar os testes localmente.
+É necessário ter as extensões do `sqlite3` do _php_ para executar os testes localmente.
 `php artisan test`
 
 [laravel-site]: https://laravel.com/
@@ -116,4 +116,3 @@ Os testes da aplicação podem ser feitos de duas formas, usando o `docker` ou n
 [nginx-site]: https://www.nginx.com/
 [apache-tutorial-site]: https://www.hostinger.com.br/tutoriais/como-instalar-laravel-ubuntu
 [tutorial-site]: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-laravel-with-nginx-on-ubuntu-20-04-pt
-
