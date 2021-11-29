@@ -6,8 +6,8 @@ O projeto foi concebido para ser uma _api_ que é consumida por um _front-end_. 
 Essa abordagem também busca garantir a descartabilidade dos componentes, de forma que, se uma organização decidir que o _front-end_ precisa ser refeito, seja com as mesmas tecnologias ou outras, a _front-end_ pode ser tranquilamente descartável e implantado seja no mesmo repositório ou em outro. O mesmo funciona de forma contrária, o _front-end_ pode ser facilmente abstraído da aplicação e consumir outro _back-end_ compatível.
 
 ## setup
-Para melhor utilizar esse projeto é necessário ter o [docker][docker-site] e [docker-compose][docker-compose-site] instalados, artigos para a intelação de ambos podem ser encontrados [aqui][intalacao-docker] e [aqui][instalacao-docker-compose]. Os assets já deverão estar compilados, contudo se você quiser compilar-los precisa ter instalado o _node_ com versão 16.13 ou superior com _npm_ habilitado.
-Caso não queira utilizar o docker é necessário ter o [php][php-site] instalado em sua maquina com as extensões necessárias para rodar o laravel e suporte para `sqlite` para os testes unitários.
+Para melhor utilizar esse projeto é necessário ter o [docker][docker-site] e [docker-compose][docker-compose-site] instalados, artigos para a instalação de ambos podem ser encontrados [aqui][intalacao-docker] e [aqui][instalacao-docker-compose]. Os assets já deverão estar compilados, contudo se você quiser compilar-los precisa ter instalado o _node_ com versão 16.13 ou superior com _npm_ habilitado.
+Caso não queira utilizar o docker é necessário ter o [php][php-site] instalado em sua maquina com as [extensões necessárias][laravel-requirements-site] para rodar o laravel e suporte para `sqlite` para os testes unitários.
 
 ### com docker
 Como o `docker-compose` instalado na sua maquina, na raiz do projeto rode o comando:
@@ -58,3 +58,12 @@ Os testes da aplicação podem ser feitos de duas formas, usando o `docker` ou n
 ### sem o docker
 É necessário tem extensões do `sqlite3` do _php_ para executar os testes localmente.
 `php artisan test`
+
+[laravel-site]: https://laravel.com/
+[reactjs-site]: https://pt-br.reactjs.org/
+[docker-site]: https://www.docker.com/
+[docker-compose-site]: https://docs.docker.com/compose/
+[instalacao-docker]: https://www.hostinger.com.br/tutoriais/install-docker-ubuntu
+[instalacao-docker-compose]: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04-pt
+[php-site]: https://www.php.net/
+[laravel-requirements-site]: https://laravel.com/docs/8.x/deployment#server-requirements
