@@ -9,7 +9,7 @@ O projeto foi concebido para ser uma _api_ que é consumida por um _front-end_. 
 Essa abordagem também busca garantir a descartabilidade dos componentes, de forma que, se uma organização decidir que o _front-end_ precisa ser refeito, seja com as mesmas tecnologias ou outras, a _front-end_ pode ser tranquilamente descartável e implantado seja no mesmo repositório ou em outro. O mesmo funciona de forma contrária, o _front-end_ pode ser facilmente abstraído da aplicação e consumir outro _back-end_ compatível.
 
 ## setup
-Para melhor utilizar esse projeto é necessário ter o [docker][docker-site] e [docker-compose][docker-compose-site] instalados, artigos para a instalação de ambos podem ser encontrados [aqui][intalacao-docker] e [aqui][instalacao-docker-compose]. Os assets já deverão estar compilados, contudo se você quiser compilar-los precisa ter instalado o _node_ com versão 16.13 ou superior com _npm_ habilitado.
+Para melhor utilizar esse projeto é necessário ter o [docker][docker-site] e [docker-compose][docker-compose-site] instalados, artigos para a instalação de ambos podem ser encontrados [aqui][instalacao-docker] e [aqui][instalacao-docker-compose]. Os assets já deverão estar compilados, contudo se você quiser compilar-los precisa ter instalado o _node_ com versão 16.13 ou superior com _npm_ habilitado.
 Caso não queira utilizar o docker é necessário ter o [php][php-site] instalado em sua maquina com as [extensões necessárias][laravel-requirements-site] para rodar o laravel e suporte para `sqlite` para os testes unitários.
 
 ### com docker
