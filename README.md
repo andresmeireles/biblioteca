@@ -13,7 +13,7 @@ Para fins de praticidade o arquivo `.env` está incluso nos arquivos do projeto,
 
 ## setup
 Para melhor utilizar esse projeto é necessário ter o [docker][docker-site] e [docker-compose][docker-compose-site] instalados, artigos para a instalação de ambos podem ser encontrados [aqui][instalacao-docker] e [aqui][instalacao-docker-compose]. Os assets já estão compilados, contudo se você quiser compilar-los precisa ter instalado o _node_ com versão 16.13 ou superior com _npm_ habilitado.
-Caso não queira utilizar o docker é necessário ter o [php][php-site] instalado em sua máquina com as [extensões necessárias][laravel-requirements-site] para rodar o laravel e o suporte para `sqlite` para os testes unitários, pode ser usado o proprio servidor do php ou servidores como nginx e apache.
+Caso não queira utilizar o docker é necessário ter o [php][php-site] instalado em sua máquina com as [extensões necessárias][laravel-requirements-site] para rodar o laravel e o suporte para `sqlite` para os testes unitários, pode ser usado o próprio servidor do php ou servidores como nginx e apache.
 
 ### com docker
 Com o `docker-compose` instalado na sua máquina, na raiz do projeto rode o comando:
