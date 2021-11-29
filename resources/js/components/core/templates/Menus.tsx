@@ -42,7 +42,7 @@ const Menus = function (): ReactElement {
                 <ListItemIcon>
                     <ShoppingCartIcon />
                 </ListItemIcon>
-                <ListItemText primary="Pedir emprestimo" />
+                <ListItemText primary="emprestimo de livros" />
             </ListItem>
             <ListItem button component={Link} to="/my-borrows">
                 <ListItemIcon>

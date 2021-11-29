@@ -195,6 +195,7 @@ class EditBookTest extends TestCase
 
     public function testEditBorrowedBook(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
         $data = [
             'name' => 'nas montanhas da loucura',
             'author' => 'h. p. lovecraft',
@@ -204,9 +205,9 @@ class EditBookTest extends TestCase
             'created_by' => $this->thirdUser->id,
         ];
         $book = $this->adder->add($data, 3, $this->adminUser);
-        $this->borrow->borrow($book->id, $this->user, new \DateTime('now'), (new \DateTime())->add(new \DateInterval('P2D')));
-        $this->borrow->borrow($book->id, $this->user, new \DateTime('now'), (new \DateTime())->add(new \DateInterval('P2D')));
-        $this->borrow->borrow($book->id, $this->user, new \DateTime('now'), (new \DateTime())->add(new \DateInterval('P2D')));
+        $this->borrow->borrow($book->id, $this->nonAdminUser, new \DateTime('now'), (new \DateTime())->add(new \DateInterval('P2D')));
+        $this->borrow->borrow($book->id, $this->nonAdminUser, new \DateTime('now'), (new \DateTime())->add(new \DateInterval('P2D')));
+        $this->borrow->borrow($book->id, $this->nonAdminUser, new \DateTime('now'), (new \DateTime())->add(new \DateInterval('P2D')));
         $editBook = [
             'name' => 'não comece pelo por que',
             'author' => 'jose alfredo',
