@@ -41,6 +41,7 @@ Route::middleware([ 'auth:sanctum', 'userIsBlock', 'verifyEmailApi' ])->group(fu
 
     Route::prefix('book')->group(function () {
         Route::get('/', [LibraryController::class, 'books']);
+        Route::get('/batch', [LibraryController::class, 'addBookBatch']);
         Route::get('/book-with-amount', [LibraryController::class, 'booksWithAmount']);
         Route::get('/books-created-by', [LibraryController::class, 'booksCreatedBy']);
         Route::get('/{bookId}', [LibraryController::class, 'bookById']);

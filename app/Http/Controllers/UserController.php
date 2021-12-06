@@ -13,18 +13,24 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function getUser(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        if (!($user instanceof User)) {
+            throw new \LogicException('usuario não é valido ou não existe');
+        }
+        $response = new ConsultResponse($user->id, true);
+        return response()->json($response->response());
+    }
+
     public function register(Request $request, CreateNewUser $createNewUser): JsonResponse
     {
-        try {
-            $data = $request->request->all();
-            $user = $createNewUser->regularUser($data);
+        $data = $request->request->all();
+        $user = $createNewUser->regularUser($data);
 
-            $response = new ConsultResponse($user);
+        $response = new ConsultResponse($user);
 
-            return response()->json($response->response());
-        } catch (\Exception $err) {
-            return response()->json(ConsultResponse::fail($err->getMessage())->response());
-        }
+        return response()->json($response->response());
     }
 
     public function sendConfirmEmail(Request $request, CreateNewUser $newUser): JsonResponse

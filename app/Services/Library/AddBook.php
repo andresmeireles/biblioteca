@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Library;
 
+use App\Exceptions\ValidationException;
 use App\Models\Book;
 use App\Models\BookAmount;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class AddBook
 {
@@ -14,6 +16,16 @@ class AddBook
     {
         if (Book::where('code', $addBook['code'])->first() !== null) {
             throw new \InvalidArgumentException('livro já cadastrado com esse código');
+        }
+        $errors = Validator::make($addBook, [
+            'name' => ['required'],
+            'author' => ['required'],
+            'code' => ['required'],
+            'genre' => ['required'],
+            'publication_year' => ['required'],
+        ])->errors();
+        if (count($errors) > 0) {
+            throw new ValidationException($errors->first());
         }
         $addBook['created_by'] = $user->id;
         $book = Book::create($addBook);
