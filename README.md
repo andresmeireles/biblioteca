@@ -26,7 +26,7 @@ Esse comando irá baixar os containers necessários e irá levanta-los. Após te
 
 Pode ser necessário criar uma chave para a aplicação laravel para que tudo funcione normalmente. Para cria-la utilize o comando:
 
-`docker exec dt-php php artisan generate:key`
+`docker exec dt-php php artisan key:generate`
 
 Com os pacotes e a chave gerada precisamos criar as tabelas. Para criar as tabelas do banco de dados execute o comando:
 
