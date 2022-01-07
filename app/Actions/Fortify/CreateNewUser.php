@@ -20,30 +20,26 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
-        try {
-            $validation = Validator::make($input, [
-                'name' => ['required', 'string', 'max:255'],
-                'username' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::class)],
-                'email' => [
-                    'required',
-                    'string',
-                    'email',
-                    'max:255',
-                    Rule::unique(User::class),
-                ],
-                'password' => $this->passwordRules(),
-            ])->errors()->toArray();
-            $this->validate($validation);
+        $validation = Validator::make($input, [
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'alpha_dash', Rule::unique(User::class)],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique(User::class),
+            ],
+            'password' => $this->passwordRules(),
+        ])->errors()->toArray();
+        $this->validate($validation);
 
-            return User::create([
-                'name' => $input['name'],
-                'username' => $input['username'],
-                'email' => $input['email'],
-                'password' => Hash::make($input['password']),
-            ]);
-        } catch (\Exception $err) {
-            throw $err;
-        }
+        return User::create([
+            'name' => $input['name'],
+            'username' => $input['username'],
+            'email' => $input['email'],
+            'password' => Hash::make($input['password']),
+        ]);
     }
 
     private function validate(array $errors): void

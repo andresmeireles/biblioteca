@@ -3,8 +3,6 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\UserController;
-use App\Responses\ConsultResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,16 +29,13 @@ Route::get('/user/blocked', [AuthController::class, 'userIsBlocked'])->middlewar
 
 Route::middleware([ 'auth:sanctum', 'userIsBlock', 'verifyEmailApi' ])->group(function () {
     Route::prefix('user')->group(function () {
-        Route::get('/', function (Request $request) {
-            $user = $request->user();
-            $response = new ConsultResponse($user->id, true);
-            return response()->json($response->response());
-        })->withoutMiddleware('userIsBlock');
+        Route::get('/', [UserController::class, 'getUser'])->withoutMiddleware('userIsBlock');
         Route::post('register', [UserController::class, 'register']);
     });
 
     Route::prefix('book')->group(function () {
         Route::get('/', [LibraryController::class, 'books']);
+        Route::get('/batch', [LibraryController::class, 'addBookBatch']);
         Route::get('/book-with-amount', [LibraryController::class, 'booksWithAmount']);
         Route::get('/books-created-by', [LibraryController::class, 'booksCreatedBy']);
         Route::get('/{bookId}', [LibraryController::class, 'bookById']);

@@ -10,8 +10,12 @@
         <directory name="app"/>
         <directory name="database/factories"/>
         <directory name="database/seeders"/>
+        <directory name="tests"/>
         <ignoreFiles>
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
-<plugins><pluginClass class="Psalm\LaravelPlugin\Plugin"/><pluginClass class="Psalm\PhpUnitPlugin\Plugin"/></plugins></psalm>
+    <plugins>
+        <pluginClass class="Psalm\LaravelPlugin\Plugin"/><pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
+</psalm>

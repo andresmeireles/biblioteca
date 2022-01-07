@@ -49,6 +49,12 @@ class ReturnBook
     private function addPenalities(BorrowedBook $borrowedBook): void
     {
         $canBorrow = CanBorrowBook::where('user_id', $borrowedBook->user_id->id)->first();
+        if ($canBorrow === null) {
+            $canBorrow = CanBorrowBook::create([
+                'user_id' => $borrowedBook->user_id->id,
+                'can_borrow_at' => now()
+            ]);
+        }
         if ($borrowedBook->is_lost) {
             $this->blockUser->blockUntil((int) $borrowedBook->user_id->id, 7);
             $canBorrow->increaseCanBorrowDate(28);
@@ -59,15 +65,15 @@ class ReturnBook
             $canBorrow->increaseCanBorrowDate(2);
             return;
         }
-        if ($lateDays >= 10 && $lateDays < 20) {
+        if ($lateDays < 20) {
             $canBorrow->increaseCanBorrowDate(7);
             return;
         }
-        if ($lateDays >= 20 && $lateDays < 30) {
+        if ($lateDays < 30) {
             $canBorrow->increaseCanBorrowDate(14);
             return;
         }
-        if ($lateDays >= 30 && $lateDays < 40) {
+        if ($lateDays < 40) {
             $canBorrow->increaseCanBorrowDate(21);
             return;
         }

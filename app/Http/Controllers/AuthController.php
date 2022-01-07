@@ -35,28 +35,20 @@ class AuthController extends Controller
 
     public function forgotPasswordEmail(Request $request, ForgotPasswordEmail $forgot): JsonResponse
     {
-        try {
-            $email = (string) $request->request->get('email');
-            $forgot->sendEmail($email);
-            $response = 'link enviado para seu email';
-        } catch (\Exception) {
-            $response = 'link enviado para seu email';
-        }
+        $email = (string) $request->request->get('email');
+        $forgot->sendEmail($email);
+        $response = 'link enviado para seu email';
 
         return response()->json((new ApiResponse($response, true))->response());
     }
 
     public function canRedifineForgottenPassword(Request $request, CanRedefine $canRedine): JsonResponse
     {
-        try {
-            $userId = $request->query->getInt('u');
-            $hash = (string) $request->query->get('f');
-            $can = $canRedine->can($userId, $hash);
+        $userId = $request->query->getInt('u');
+        $hash = (string) $request->query->get('f');
+        $can = $canRedine->can($userId, $hash);
 
-            return response()->json((new ApiResponse('', $can))->response());
-        } catch (\Exception) {
-            return response()->json(ConsultResponse::fail('')->response());
-        }
+        return response()->json((new ApiResponse('', $can))->response());
     }
 
     public function userIsBlocked(Request $request): JsonResponse
